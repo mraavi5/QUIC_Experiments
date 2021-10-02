@@ -1,13 +1,6 @@
 x = categorical({'RSA 3072','Dilithium 2','Dilithium3','Dilithium5','Falcon512','Falcon1024'});
 x = reordercats(x,{'RSA 3072','Dilithium 2','Dilithium3','Dilithium5','Falcon512','Falcon1024'});
 
-errhigh = [0.0555325375681583
-0.0579130359509992
-0.0664043865866357
-0.0777806113357947
-0.0926448260372474
-0.155074183935658];
-
 
 y = [8.704957523 11.84353995;
 8.745854859 11.55008407;
