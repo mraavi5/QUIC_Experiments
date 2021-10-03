@@ -29,3 +29,6 @@ ylabel('Handshake Time (ms)','FontSize',18)
 xlabel('Algorithms','FontSize',18)
 legend({'QUIC','TCP'},'FontSize',18)
 legend('Location','northwest')
+grid on
+grid minor
+axis square

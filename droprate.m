@@ -36,3 +36,6 @@ ylabel('Handshake Time (ms)','FontSize',18)
 xlabel('Packet Drop Rate (%)','FontSize',18)
 legend({'RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024'},'FontSize',14)
 legend('Location','northwest')
+grid on
+grid minor
+axis square
