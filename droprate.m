@@ -74,7 +74,8 @@ elseif selection == 3
     set(gca, 'YScale', 'log')
     ylabel('Handshake Time (ms)','FontSize',18)
     xlabel('Packet Drop Rate (%)','FontSize',18)
-    legend({'RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024','QUIC'},'FontSize',14)
+    legend({'TCP/TLS RSA3072','TCP/TLS Dilithium2','TCP/TLS Dilithium3','TCP/TLS Dilithium5','TCP/TLS Falcon512','TCP/TLS Falcon1024','QUIC RSA3072','QUIC Dilithium2','QUIC Dilithium3','QUIC Dilithium5','QUIC Falcon512','QUIC Falcon1024'},'FontSize',9)
+    %legend({'TCP/TLS','','','','','','QUIC'},'FontSize',14)
     legend('Location','northwest')
     grid on
     grid minor
