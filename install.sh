@@ -1,6 +1,11 @@
 sudo apt-get update 
 sudo apt-get upgrade
 
+sudo apt install zlib1g
+sudo apt install zlib1g-dev
+
+sudo apt install libevent-dev
+
 sudo apt install -y astyle git cmake gcc ninja-build libssl-dev python3-pytest python3-pytest-xdist unzip xsltproc doxygen graphviz golang-go
 
 mkdir oqs
