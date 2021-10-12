@@ -6,6 +6,8 @@ sudo apt install zlib1g-dev
 
 sudo apt install libevent-dev
 
+sudo apt-get install python3-sphinx
+
 sudo apt install -y astyle git cmake gcc ninja-build libssl-dev python3-pytest python3-pytest-xdist unzip xsltproc doxygen graphviz golang-go
 
 mkdir oqs
