@@ -22,7 +22,7 @@ BORINGSSL_DIR=$PWD/boringssl
 
 cd lsquic
 git submodule init
-git submodule init
+git submodule update
 cd ..
 
 cd liboqs
