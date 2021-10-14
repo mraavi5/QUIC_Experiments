@@ -138,9 +138,10 @@ directory = selectDir('.*Logs.*', True)
 
 if use95percentile:
 	csvFiles = listFiles(r'.*\_parsed_handshake_remove95percentile.csv', directory)
+	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES_95.csv')
 else:
 	csvFiles = listFiles(r'.*\_parsed_handshake.csv', directory)
-outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES.csv')
+	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES.csv')
 outputFile = open(outputFilePath, 'w', newline='')
 outputWriter = csv.writer(outputFile)
 outputFileHasHeader = False
