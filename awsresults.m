@@ -71,6 +71,7 @@ elseif selection == 2
     80.29929797 158.3269144 259.5917914 93.61179251
     ];
     bar(x,y)
+    ylim([0 500])
     ylabel('QUIC Handshake Time (ms)','FontSize',18)
     xlabel('AWS Server Location','FontSize',18)
     %set(gca, 'YScale', 'log')
