@@ -6,7 +6,7 @@ import scipy.stats
 import sys
 import time
 
-## TODO: Confidence interval has the row cells instead of the column cells which corrupts the confidence interval, NEEDS FIX
+use95percentile = input('Use the 95 percentile filtered data?').lower() in ['y', 'yes']
 
 # Given a regular expression, list the files that match it, and ask for user input
 def selectFile(regex, subdirs = False):
@@ -136,7 +136,10 @@ def mean_confidence_interval(data, confidence=0.95):
 
 directory = selectDir('.*Logs.*', True)
 
-csvFiles = listFiles(r'.*\_parsed_handshake.csv', directory)
+if use95percentile:
+	csvFiles = listFiles(r'.*\_parsed_handshake_remove95percentile.csv', directory)
+else:
+	csvFiles = listFiles(r'.*\_parsed_handshake.csv', directory)
 outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES.csv')
 outputFile = open(outputFilePath, 'w', newline='')
 outputWriter = csv.writer(outputFile)
