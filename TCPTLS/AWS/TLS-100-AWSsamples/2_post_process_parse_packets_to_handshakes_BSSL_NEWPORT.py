@@ -4,7 +4,7 @@ import re
 import sys
 import time
 
-handshakeCutoff = None
+handshakeCutoff = 100 #1000 #None
 print(f'Handshake counter cutoff number: ', handshakeCutoff)
 
 # numSamples = 10
@@ -12,12 +12,16 @@ print(f'Handshake counter cutoff number: ', handshakeCutoff)
 #time.sleep(8)
 
 
-
 # Select the droprate sequence
 #droprates = [0, 5, 10, 20, 40] # Default
 droprates = [0, 5, 10, 15, 20, 25, 30, 35, 40] # Default
-#if '_delay_' in inputFileName:
-#	droprates = [0, 60, 100, 400, 1000]
+
+
+# if '_delay_' in inputFileName:
+# 	droprates = [0, 60, 100, 400, 1000]
+# 	print('Needs fix for delay')
+# 	sys.exit()
+
 
 #quic_fields = ['', 'connection_number', 'packet_length', 'header_form', 'fixed_bit', 'long_packet_type', 'long_reserved', 'packet_number_length', 'version', 'dcil', 'dcid', 'scil', 'scid', 'token_length', 'length', 'packet_number', 'payload', 'frame', 'frame_type', 'crypto_offset', 'crypto_length', 'crypto_crypto_data', 'tls_handshake', 'tls_handshake_type', 'tls_handshake_length', 'tls_handshake_version', 'tls_handshake_random', 'tls_handshake_session_id_length', 'tls_handshake_cipher_suites_length', 'tls_handshake_ciphersuites', 'tls_handshake_ciphersuite', 'tls_handshake_comp_methods_length', 'tls_handshake_comp_methods', 'tls_handshake_comp_method', 'tls_handshake_extensions_length', 'tls_handshake_extension_type', 'tls_handshake_extension_len', 'tls_handshake_extensions_server_name_list_len', 'tls_handshake_extensions_server_name_type', 'tls_handshake_extensions_server_name_len', 'tls_handshake_extensions_server_name', 'tls_handshake_extensions_supported_groups_length', 'tls_handshake_extensions_supported_groups', 'tls_handshake_extensions_supported_group', 'tls_handshake_extensions_alpn_len', 'tls_handshake_extensions_alpn_list', 'tls_handshake_extensions_alpn_str_len', 'tls_handshake_extensions_alpn_str', 'tls_handshake_sig_hash_alg_len', 'tls_handshake_sig_hash_algs', 'tls_handshake_sig_hash_alg', 'tls_handshake_sig_hash_hash', 'tls_handshake_sig_hash_sig', 'tls_handshake_extensions_key_share_client_length', 'tls_handshake_extensions_key_share_group', 'tls_handshake_extensions_key_share_key_exchange_length', 'tls_handshake_extensions_key_share_key_exchange', 'tls_extension_psk_ke_modes_length', 'tls_extension_psk_ke_mode', 'tls_handshake_extensions_supported_versions_len', 'tls_handshake_extensions_supported_version', 'tls_parameter_type', 'tls_parameter_length', 'tls_parameter_value', 'tls_parameter_max_idle_timeout', 'tls_parameter_initial_max_data', 'tls_parameter_initial_max_stream_data_bidi_local', 'tls_parameter_initial_max_stream_data_uni', 'tls_parameter_initial_max_streams_bidi', 'tls_parameter_initial_max_streams_uni', 'tls_parameter_active_connection_id_limit', 'tls_parameter_min_ack_delay', 'tls_parameter_enable_time_stamp_v2', 'tls_parameter_loss_bits', 'tls_parameter_initial_source_connection_id', 'tls_handshake_extensions_padding_data', 'padding_length']
 
@@ -150,7 +154,7 @@ def header():
 	line += 'Experiment Type,'
 	line += 'Type Value,'
 	#line += 'Droprate (%),'
-
+	
 	line += 'Number of handshake packets,'
 	line += 'Number of payload packets,'
 	line += 'Number of handshake bytes,'
@@ -183,7 +187,7 @@ for inputFileName in csvFiles:
 	#	sys.exit()
 	print('\n\nOPENING', inputFileName)
 
-	#print('Droprate sequence order: ' + str(droprates))
+	print('Droprate sequence order: ' + str(droprates))
 	#modifyConnectionSequence = input('Would you like to modify this? ').lower() in ['y', 'yes']
 	#if modifyConnectionSequence:
 	#	dropratesStr = input('Enter a new connection sequence (separated by spaces): ').split()
@@ -245,17 +249,21 @@ for inputFileName in csvFiles:
 				print(f'Processing handshake {num_successful_connections}')
 
 			successful_connection_max_value = num_successful_connections
-
 			# if sample_num >= len(experimental_setup_droprate):
 			# 	# If for some reason there are more samples (overfilled), assume it is part of the last accepted sample
 			# 	current_droprate_at_this_time = experimental_setup_droprate[-1]
 			# else:
 			# 	#current_droprate_at_this_time = experimental_setup_droprate[sample_num]
-			# 	current_droprate_at_this_time = experimental_setup_droprate[num_successful_connections]
-			# # Keep the exp_variables_at_successful_connection array size up to date
+			# 	if num_successful_connections >= len(experimental_setup_droprate):
+			# 		# If the index is too big, assume it is the last droprate
+			# 		current_droprate_at_this_time = experimental_setup_droprate[-1]
+			# 	else:
+			# 		current_droprate_at_this_time = experimental_setup_droprate[num_successful_connections]
+			# Keep the exp_variables_at_successful_connection array size up to date
 			# while len(exp_variables_at_successful_connection) <= num_successful_connections:
 			# 	exp_variables_at_successful_connection.append(current_droprate_at_this_time)
 			exp_variables_at_successful_connection.append([file_algorithm, file_numSamples, file_experimentType, file_experimentVal])
+
 
 		# Logging section, if entry doesn't exist, create it, otherwise update it
 		if num_successful_connections not in handshake_length: # Bug
@@ -288,7 +296,6 @@ for inputFileName in csvFiles:
 		# Count number of long and short headers
 		long_short_list = packet[16].split(' ')
 		quic_bytes = packet[11].split(' ')
-		
 		for i in range(len(long_short_list)):
 			if long_short_list[i] == 'long':
 				handshake_long_headers[num_successful_connections] += 1

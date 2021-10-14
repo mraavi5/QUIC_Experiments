@@ -4,7 +4,7 @@ import re
 import sys
 import time
 
-handshakeCutoff = None
+handshakeCutoff = 100
 print(f'Handshake counter cutoff number: ', handshakeCutoff)
 
 # numSamples = 10
