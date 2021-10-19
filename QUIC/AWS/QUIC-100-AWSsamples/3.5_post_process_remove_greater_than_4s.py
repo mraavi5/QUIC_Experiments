@@ -141,7 +141,7 @@ for inputFileName in csvFiles:
 	readerFile.close()
 
 	# 95 quantile has now been computed
-	outputFilePath = os.path.join(directory, os.path.basename(inputFileName[:-4] + '_removeover5s.csv'))
+	outputFilePath = os.path.join(directory, os.path.basename(inputFileName[:-4] + f'_removeover{int(duration_cutoff_threshold/1000)}s.csv'))
 	outputFile = open(outputFilePath, 'w', newline='')
 	outputWriter = csv.writer(outputFile)
 
