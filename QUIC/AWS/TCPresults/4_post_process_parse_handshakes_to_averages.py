@@ -6,7 +6,8 @@ import scipy.stats
 import sys
 import time
 
-use95percentile = input('Use the 95 percentile filtered data?').lower() in ['y', 'yes']
+useCutoff = input('Use the second-cutoff filtered data (y/n)?').lower() in ['y', 'yes']
+if not useCutoff: use95percentile = input('Use the 95 percentile filtered data (y/n)?').lower() in ['y', 'yes']
 
 # Given a regular expression, list the files that match it, and ask for user input
 def selectFile(regex, subdirs = False):
@@ -136,7 +137,10 @@ def mean_confidence_interval(data, confidence=0.95):
 
 directory = selectDir('.*Logs.*', True)
 
-if use95percentile:
+if useCutoff:
+	csvFiles = listFiles(r'.*\_parsed_handshake_removeover[0-9]+s.csv', directory)
+	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES_S_CUTOFF.csv')
+elif use95percentile:
 	csvFiles = listFiles(r'.*\_parsed_handshake_remove95percentile.csv', directory)
 	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES_95.csv')
 else:

@@ -6,8 +6,7 @@ import scipy.stats
 import sys
 import time
 
-useCutoff = input('Use the second-cutoff filtered data (y/n)?').lower() in ['y', 'yes']
-if not useCutoff: use95percentile = input('Use the 95 percentile filtered data (y/n)?').lower() in ['y', 'yes']
+duration_cutoff_threshold = 4000
 
 # Given a regular expression, list the files that match it, and ask for user input
 def selectFile(regex, subdirs = False):
@@ -127,92 +126,49 @@ def color(foreground = '', background = '', message = ''):
 	else: return f'{ color }{ str(message) }\033[0m'
 
 # Return the +- value after a set of data
-def mean_confidence_interval(data, confidence=0.95):
+def percentile(data, p=95):
 	a = 1.0 * np.array(data)
-	n = len(a)
-	m, se = np.mean(a), scipy.stats.sem(a)
-	h = se * scipy.stats.t.ppf((1 + confidence) / 2., n-1)
-	return h
+	return np.percentile(a, p)
 
 
 directory = selectDir('.*Logs.*', True)
 
-if useCutoff:
-	csvFiles = listFiles(r'.*\_parsed_handshake_removeover[0-9]+s.csv', directory)
-	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES_S_CUTOFF.csv')
-elif use95percentile:
-	csvFiles = listFiles(r'.*\_parsed_handshake_remove95percentile.csv', directory)
-	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES_95.csv')
-else:
-	csvFiles = listFiles(r'.*\_parsed_handshake.csv', directory)
-	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES.csv')
-outputFile = open(outputFilePath, 'w', newline='')
-outputWriter = csv.writer(outputFile)
-outputFileHasHeader = False
+csvFiles = listFiles(r'.*\_parsed_handshake.csv', directory)
 
 for inputFileName in csvFiles:
 	print(f'Processing "{inputFileName}"...')
+	print(f'    Duration cutoff threshold: {duration_cutoff_threshold}ms')
+	readerFile.close()
+
+
+
+	# 95 quantile has now been computed
+	outputFilePath = os.path.join(directory, os.path.basename(inputFileName[:-4] + '_removeover5s.csv'))
+	outputFile = open(outputFilePath, 'w', newline='')
+	outputWriter = csv.writer(outputFile)
 
 	readerFile = open(inputFileName, 'r')
 	reader = csv.reader(x.replace('\0', '') for x in readerFile)
 
 	temp_header = next(reader)
-	columnSums = [0] * len(temp_header)
-	columnArray = []
-	columnCI = [0] * len(temp_header)
+	outputWriter.writerow(temp_header)
 
-	for i in range(len(temp_header)):
-		columnArray.append([])
-
-
-	if not outputFileHasHeader:
-		output_header = ['FILE NAME']
-
-		for i in range(len(temp_header)):
-			output_header.append(f'{temp_header[i]} (AVERAGED)')
-			output_header.append(f'(± CI) {temp_header[i]}')
-
-		outputWriter.writerow(output_header)
-		outputFileHasHeader = True
-
-	rowCounter = 0
+	removedRows = 0
+	totalRows = 0
 
 	for row in reader:
-		for i in range(len(row)):
-			cell = row[i]
-			try:
-				cell = float(cell)
-			except: pass
+		totalRows += 1
+		handshake_duration = float(row[3])
+		if handshake_duration >= duration_cutoff_threshold:
+			removedRows += 1
+			continue
 
-			if type(cell) is str:
-				if columnSums[i] == 0:
-					columnSums[i] = str(cell)
-					columnCI[i] = ''
-				continue
-
-			columnSums[i] += cell
-			columnArray[i].append(cell)
-		rowCounter += 1
-	# columnArray is now full
-
-	for i in range(len(columnSums)):
-		col_arr = columnArray.pop(0)
-		if type(columnSums[i]) is str: continue
-
-		columnSums[i] = float(columnSums[i]) / float(rowCounter)
-		columnCI[i] = mean_confidence_interval(col_arr)
-
-	finalRow = [inputFileName]
-
-	while len(columnSums) > 0:
-		finalRow.append(columnSums.pop(0))
-		ci = columnCI.pop(0)
-		finalRow.append(ci)
-
-	outputWriter.writerow(finalRow)
+		outputWriter.writerow(row)
 
 	readerFile.close()
+	outputFile.close()
+	print(f'    {removedRows} / {totalRows} rows were removed.')
+	print(f'    Saved to {outputFilePath}')
 
-print(f'\nAverage column outputs saved to "{outputFilePath}".')
 print('Goodbye.')
 sys.exit()

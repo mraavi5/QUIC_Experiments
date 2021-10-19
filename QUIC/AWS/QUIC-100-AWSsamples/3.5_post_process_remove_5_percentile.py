@@ -6,8 +6,6 @@ import scipy.stats
 import sys
 import time
 
-## TODO: Confidence interval has the row cells instead of the column cells which corrupts the confidence interval, NEEDS FIX
-
 # Given a regular expression, list the files that match it, and ask for user input
 def selectFile(regex, subdirs = False):
 	files = []
