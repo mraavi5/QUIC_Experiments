@@ -4,12 +4,12 @@ import re
 import sys
 import time
 
-handshakeCutoff = 100 #1000 #None
+handshakeCutoff = 1000 #1000 #None
 print(f'Handshake counter cutoff number: ', handshakeCutoff)
 
 # numSamples = 10
 # print(f'Using {numSamples} samples')
-#time.sleep(8)
+#time.sleep(3)
 
 
 # Select the droprate sequence
@@ -266,7 +266,7 @@ for inputFileName in csvFiles:
 
 
 		# Logging section, if entry doesn't exist, create it, otherwise update it
-		if num_successful_connections not in handshake_length: # Bug
+		if num_successful_connections not in handshake_length: # Bug fix
 			# First time, initialize entry in dictionary
 			handshake_length[num_successful_connections] = 0
 			payload_length[num_successful_connections] = 0
@@ -277,6 +277,7 @@ for inputFileName in csvFiles:
 			handshake_long_headers_bytes[num_successful_connections] = 0
 			handshake_short_headers_bytes[num_successful_connections] = 0
 			time_start[num_successful_connections] = float(packet[1])
+			is_handshake_packet = True # Don't let the first packet not be a handshake
 
 
 		# If we find a packet from the previous experiment, skip
