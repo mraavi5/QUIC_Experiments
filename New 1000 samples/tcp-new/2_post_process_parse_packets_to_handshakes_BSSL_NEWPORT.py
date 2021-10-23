@@ -305,8 +305,12 @@ for inputFileName in csvFiles:
 				handshake_short_headers[num_successful_connections] += 1
 				handshake_short_headers_bytes[num_successful_connections] += int(quic_bytes[i])
 
+	count = 0
 	for i in range(0, successful_connection_max_value):
-		if handshakeCutoff is not None and i >= handshakeCutoff:
+		handshake_duration = (time_end[i] - time_start[i]) * 1000
+		if handshake_duration == 0: continue
+
+		if handshakeCutoff is not None and count >= handshakeCutoff:
 			print('HANDSHAKE CUTOFF REACHED, BREAKING')
 			break
 		try:
