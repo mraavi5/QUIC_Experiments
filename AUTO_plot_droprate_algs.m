@@ -4,14 +4,8 @@ line_width = 2;
 font_size = 18;
 legend_pos = 'NorthWest';
 
-isQUIC = 1;
-
-if isQUIC
-    data = readmatrix('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
-    datastr = readtable('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
-else
-    %data = readmatrix('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
-end
+data = readmatrix('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
+datastr = readtable('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
 
 
 x = [0 10 15 20 25 30 35 40 5]
