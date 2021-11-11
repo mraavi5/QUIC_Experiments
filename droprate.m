@@ -4,13 +4,13 @@ clear all
 selections
 
 1: quic and tls data with 9 drop rates and 10 samples
-3: tls data with 9 drop rates and 1000 samples
-
-
+2: tls data with 9 drop rates and 1000 samples
+3: tls data with 5 drop rates and 1000 samples
+4: tls data with 4 drop rates (0,5,10,20) and 1000 samples
 %}
 
 
-selection = 1;
+selection = 4;
 
 if selection == 1
     %quic data with 9 drop rates and 10 samples
@@ -38,7 +38,7 @@ if selection == 1
     grid minor
     axis square
 
-elseif selection == 3
+elseif selection == 2
     %tls data with 9 drop rates and 1000 samples
     x = [0 5 10 15 20 25 30 35 40];
     y = [15.0426962	31.6143265	48.6450293	77.5969443	112.87435	166.224248	235.283324	281.156161	293.386755
@@ -64,8 +64,8 @@ elseif selection == 3
     grid on
     grid minor
     axis square
- elseif selection == 4
-    %tls data with 9 drop rates and 1000 samples
+ elseif selection == 3
+    %tls data with 5 drop rates and 1000 samples
     x = [0 5 10 20 40];
     y = [15.0426962	31.6143265	48.6450293	112.87435	293.386755
     8.921268702	19.89830756	44.4141269	114.044445	281.98114
@@ -73,13 +73,39 @@ elseif selection == 3
     12.1575196	23.5603874	46.5200851	97.5426736	320.754321
     16.7149951	31.4340405	45.7379036	113.022259	318.560271
     21.8567877	36.667181	57.2596824	114.232093	302.872536];
-    %quic data with 9 drop rates and 1000 samples    
+    %quic data with 5 drop rates and 1000 samples    
      z = [8.112297	8.37153	9.110029	16.82594	388.3478
     5.716916323	6.441332	6.646052	15.68176	78.78724
     6.404416	6.886349	7.718261	45.93917	130.6784
     6.75817	7.720164	8.59900	30.65121	125.9837
     8.39404	8.991255	9.782846	11.28093	54.77914
     13.34471	14.90665	15.26271	17.59507	162.3324];
+    plot(x,y,'-o',x,z,'-*')
+    set(gca, 'YScale', 'log')
+    ylabel('Handshake Time (ms)','FontSize',18)
+    xlabel('Packet Drop Rate (%)','FontSize',18)
+    legend({'TCP/TLS RSA3072','TCP/TLS Dilithium2','TCP/TLS Dilithium3','TCP/TLS Dilithium5','TCP/TLS Falcon512','TCP/TLS Falcon1024','QUIC RSA3072','QUIC Dilithium2','QUIC Dilithium3','QUIC Dilithium5','QUIC Falcon512','QUIC Falcon1024'},'FontSize',9)
+    %legend({'TCP/TLS','','','','','','QUIC'},'FontSize',14)
+    legend('Location','northwest')
+    grid on
+    grid minor
+    axis square
+  elseif selection == 4
+    %tls data with 4 drop rates and 1000 samples
+    x = [0 5 10 20];
+    y = [15.0426962	31.6143265	48.6450293	112.87435
+    8.921268702	19.89830756	44.4141269	114.044445
+    12.5220101	24.59621024	43.8976784	109.362925
+    12.1575196	23.5603874	46.5200851	97.5426736
+    16.7149951	31.4340405	45.7379036	113.022259
+    21.8567877	36.667181	57.2596824	114.232093];
+    %quic data with 4 drop rates and 1000 samples    
+     z = [8.112297	8.37153	9.110029	16.82594
+    5.716916323	6.441332	6.646052	15.68176
+    6.404416	6.886349	7.718261	45.93917
+    6.75817	7.720164	8.59900	30.65121
+    8.39404	8.991255	9.782846	11.28093
+    13.34471	14.90665	15.26271	17.59507];
     plot(x,y,'-o',x,z,'-*')
     set(gca, 'YScale', 'log')
     ylabel('Handshake Time (ms)','FontSize',18)
