@@ -2,7 +2,6 @@ clear all
 
 %{
 selections
-
 1: quic and tls data with 9 drop rates and 10 samples
 2: tls data with 9 drop rates and 1000 samples
 3: tls data with 5 drop rates and 1000 samples
