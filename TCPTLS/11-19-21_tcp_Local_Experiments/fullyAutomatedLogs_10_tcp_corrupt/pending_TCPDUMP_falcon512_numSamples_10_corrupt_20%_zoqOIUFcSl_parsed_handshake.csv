@@ -1,0 +1,7 @@
+Start timestamp (s),End timestamp (s),Handshake number,Handshake duration (ms),Algorithm,Num Samples,Experiment Type,Type Value,Number of handshake packets,Number of payload packets,Number of handshake bytes,Number of payload bytes,Number of long headers,Number of short headers,Bytes for long headers,Bytes for short headers,
+1637239585.212723,1637239585.225976,0,13.252973556518555,falcon512,10,corrupt,20%,8,4,3707,264,0,0,0,0,
+1637239586.727466,1637239589.816243,1,3088.7768268585205,falcon512,10,corrupt,20%,13,18,4078,4369,0,0,0,0,
+1637239591.055161,1637239591.276392,2,221.23098373413086,falcon512,10,corrupt,20%,12,14,4500,3569,0,0,0,0,
+1637239592.472801,1637239594.16863,3,1695.828914642334,falcon512,10,corrupt,20%,10,4,4360,264,0,0,0,0,
+1637239595.44847,1637239595.756548,4,308.0778121948242,falcon512,10,corrupt,20%,10,20,4364,4501,0,0,0,0,
+1637239596.884719,1637239596.893392,5,8.67319107055664,falcon512,10,corrupt,20%,8,6,3703,472,0,0,0,0,
