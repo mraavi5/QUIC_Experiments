@@ -3,16 +3,26 @@ marker_size = 15;
 line_width = 2;
 font_size = 18;
 
-experimentSet = 2
+experimentSet = 3
 
 if experimentSet == 1
     data = readmatrix('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
     datastr = readtable('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
     x = [0 10 15 20 25 30 35 40 5]
     legend_pos = 'NorthWest';
+    
+    
+    
+    
 elseif experimentSet == 2
-    data = readmatrix('TCPTLS\11-16-21-fullyAutomatedLogs_prelim_10_delay\COMPUTED_AVERAGES.csv');
-    datastr = readtable('TCPTLS\11-16-21-fullyAutomatedLogs_prelim_10_delay\COMPUTED_AVERAGES.csv');
+    data = readmatrix('TCPTLS\11-16-21_fullyAutomatedLogs_prelim_tcptls_10_delay\COMPUTED_AVERAGES.csv');
+    datastr = readtable('TCPTLS\11-16-21_fullyAutomatedLogs_prelim_tcptls_10_delay\COMPUTED_AVERAGES.csv');
+    x = [0 100 200 300 400]
+    legend_pos = 'SouthEast';
+    
+elseif experimentSet == 3
+    data = readmatrix('QUIC\11-16-21_fullyAutomatedLogs_prelim_quic_10_delay\COMPUTED_AVERAGES.csv');
+    datastr = readtable('QUIC\11-16-21_fullyAutomatedLogs_prelim_quic_10_delay\COMPUTED_AVERAGES.csv');
     x = [0 100 200 300 400]
     legend_pos = 'SouthEast';
 end
@@ -116,6 +126,18 @@ elseif experimentSet == 2
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
     legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+elseif experimentSet == 3
+    xlabel('Network Delay (ms)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
 end
 
 
