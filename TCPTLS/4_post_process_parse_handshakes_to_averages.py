@@ -6,8 +6,8 @@ import scipy.stats
 import sys
 import time
 
-useCutoff = input('Use the second-cutoff filtered data (y/n)?').lower() in ['y', 'yes']
-if not useCutoff: use95percentile = input('Use the 95 percentile filtered data (y/n)?').lower() in ['y', 'yes']
+useCutoff = input('Use the second-cutoff filtered data (y/n)? ').lower() in ['y', 'yes']
+if not useCutoff: use95percentile = input('Use the 95 percentile filtered data (y/n)? ').lower() in ['y', 'yes']
 
 # Given a regular expression, list the files that match it, and ask for user input
 def selectFile(regex, subdirs = False):
@@ -138,14 +138,21 @@ def mean_confidence_interval(data, confidence=0.95):
 directory = selectDir('.*Logs.*', True)
 
 if useCutoff:
-	csvFiles = listFiles(r'.*\_parsed_handshake_removeover[0-9]+s.csv', directory)
+	csvFiles = listFiles(r'.*\_parsed_handshake_withcpu_removeover[0-9]+s.csv', directory)
+	if len(csvFiles) == 0:
+		csvFiles = listFiles(r'.*\_parsed_handshake_removeover[0-9]+s.csv', directory)
 	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES_S_CUTOFF.csv')
 elif use95percentile:
-	csvFiles = listFiles(r'.*\_parsed_handshake_remove95percentile.csv', directory)
+	csvFiles = listFiles(r'.*\_parsed_handshake_withcpu_remove95percentile.csv', directory)
+	if len(csvFiles) == 0:
+		csvFiles = listFiles(r'.*\_parsed_handshake_remove95percentile.csv', directory)
 	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES_95.csv')
 else:
-	csvFiles = listFiles(r'.*\_parsed_handshake.csv', directory)
+	csvFiles = listFiles(r'.*\_parsed_handshake_withcpu.csv', directory)
+	if len(csvFiles) == 0:
+		csvFiles = listFiles(r'.*\_parsed_handshake.csv', directory)
 	outputFilePath = os.path.join(directory, 'COMPUTED_AVERAGES.csv')
+
 outputFile = open(outputFilePath, 'w', newline='')
 outputWriter = csv.writer(outputFile)
 outputFileHasHeader = False
