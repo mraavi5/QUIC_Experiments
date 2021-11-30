@@ -3,27 +3,94 @@ marker_size = 15;
 line_width = 2;
 font_size = 18;
 
-experimentSet = 3
+% 1 - the older 1000 samples
+% 2 - TCP delay
+% 3 - QUIC delay
+% 4 - TCP drop
+% 5 - QUIC drop
+% 6 - TCP corrupt
+% 7 - QUIC corrupt
+% 8 - TCP duplicate
+% 9 - QUIC duplicate
+% 10 - TCP smaller delay steps
+% 11 - QUIC smaller delay steps
+experimentSet = 5
 
+% 1 - the older 1000 samples
 if experimentSet == 1
     data = readmatrix('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
     datastr = readtable('QUIC\COMPUTED_AVERAGES_QUIC_1000_SAMPLES.csv');
     x = [0 10 15 20 25 30 35 40 5]
     legend_pos = 'NorthWest';
     
-    
-    
-    
+% 2 - TCP delay
 elseif experimentSet == 2
-    data = readmatrix('TCPTLS\11-16-21_fullyAutomatedLogs_prelim_tcptls_10_delay\COMPUTED_AVERAGES.csv');
-    datastr = readtable('TCPTLS\11-16-21_fullyAutomatedLogs_prelim_tcptls_10_delay\COMPUTED_AVERAGES.csv');
-    x = [0 100 200 300 400]
+    data = readmatrix('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_delay\COMPUTED_AVERAGES.csv');
+    datastr = readtable('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_delay\COMPUTED_AVERAGES.csv');
+    x = [0 100 200 300 400 50]
     legend_pos = 'SouthEast';
     
+% 3 - QUIC delay
 elseif experimentSet == 3
-    data = readmatrix('QUIC\11-16-21_fullyAutomatedLogs_prelim_quic_10_delay\COMPUTED_AVERAGES.csv');
-    datastr = readtable('QUIC\11-16-21_fullyAutomatedLogs_prelim_quic_10_delay\COMPUTED_AVERAGES.csv');
+    data = readmatrix('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_delay\COMPUTED_AVERAGES.csv');
+    datastr = readtable('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_delay\COMPUTED_AVERAGES.csv');
     x = [0 100 200 300 400]
+    legend_pos = 'SouthEast';
+
+% 4 - TCP drop
+elseif experimentSet == 4
+    data = readmatrix('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_drop\COMPUTED_AVERAGES.csv');
+    datastr = readtable('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_drop\COMPUTED_AVERAGES.csv');
+    x = [0 10 20 40 5]
+    legend_pos = 'SouthEast';
+    
+% 5 - QUIC drop
+elseif experimentSet == 5
+    data = readmatrix('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_drop\COMPUTED_AVERAGES.csv');
+    datastr = readtable('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_drop\COMPUTED_AVERAGES.csv');
+    x = [0 10 20 40 5]
+    legend_pos = 'SouthEast';
+    
+% 6 - TCP corrupt
+elseif experimentSet == 6
+    data = readmatrix('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_corrupt\COMPUTED_AVERAGES.csv');
+    datastr = readtable('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_corrupt\COMPUTED_AVERAGES.csv');
+    x = [0 10 20 40 5]
+    legend_pos = 'SouthEast';
+    
+% 7 - QUIC corrupt
+elseif experimentSet == 7
+    data = readmatrix('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_corrupt\COMPUTED_AVERAGES.csv');
+    datastr = readtable('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_corrupt\COMPUTED_AVERAGES.csv');
+    x = [0 10 20 40 5]
+    legend_pos = 'SouthEast';
+    
+% 8 - TCP duplicate
+elseif experimentSet == 8
+    data = readmatrix('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_duplicate\COMPUTED_AVERAGES.csv');
+    datastr = readtable('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_duplicate\COMPUTED_AVERAGES.csv');
+    x = [0 10 20 40 5]
+    legend_pos = 'SouthEast';
+    
+% 9 - QUIC duplicate
+elseif experimentSet == 9
+    data = readmatrix('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_duplicate\COMPUTED_AVERAGES.csv');
+    datastr = readtable('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_duplicate\COMPUTED_AVERAGES.csv');
+    x = [0 10 20 40 5]
+    legend_pos = 'SouthEast';
+    
+% 10 - TCP smaller delay steps
+elseif experimentSet == 10
+    data = readmatrix('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_extra_delay\COMPUTED_AVERAGES.csv');
+    datastr = readtable('TCPTLS\11-19-21_tcp_Local_Experiments\fullyAutomatedLogs_10_tcp_extra_delay\COMPUTED_AVERAGES.csv');
+    x = [0 10 20 30 40 50]
+    legend_pos = 'SouthEast';
+    
+% 11 - QUIC smaller delay steps
+elseif experimentSet == 11
+    data = readmatrix('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_extra_delay\COMPUTED_AVERAGES.csv');
+    datastr = readtable('QUIC\11-19-21_quic_Local_Experiments\fullyAutomatedLogs_10_quic_extra_delay\COMPUTED_AVERAGES.csv');
+    x = [0 10 20 30 40 50]
     legend_pos = 'SouthEast';
 end
 
@@ -102,6 +169,19 @@ axis square
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+% 1 - the older 1000 samples
 if experimentSet == 1
 
     xlabel('Network Drop Rate (%)', 'FontSize', font_size)
@@ -115,6 +195,7 @@ if experimentSet == 1
 
     legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
 
+% 2 - TCP delay
 elseif experimentSet == 2
     xlabel('Network Delay (ms)', 'FontSize', font_size)
     ylabel('Handshake Duration (ms)', 'FontSize', font_size)
@@ -127,6 +208,7 @@ elseif experimentSet == 2
 
     legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
 
+% 3 - QUIC delay
 elseif experimentSet == 3
     xlabel('Network Delay (ms)', 'FontSize', font_size)
     ylabel('Handshake Duration (ms)', 'FontSize', font_size)
@@ -138,7 +220,112 @@ elseif experimentSet == 3
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
     legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 4 - TCP drop
+elseif experimentSet == 4
+    xlabel('Network Drop Rate (%)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 5 - QUIC drop
+elseif experimentSet == 5
+    xlabel('Network Drop Rate (%)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 6 - TCP corrupt
+elseif experimentSet == 6
+    xlabel('Network Corruption Rate (%)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 7 - QUIC corrupt
+elseif experimentSet == 7
+    xlabel('Network Corruption Rate (%)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 8 - TCP duplicate
+elseif experimentSet == 8
+    xlabel('Network Duplication Rate (%)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 9 - QUIC duplicate
+elseif experimentSet == 9
+    xlabel('Network Duplication Rate (%)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 10 - TCP smaller delay steps
+elseif experimentSet == 10
+    xlabel('Network Delay (ms)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 11 - QUIC smaller delay steps
+elseif experimentSet == 11
+    xlabel('Network Delay (ms)', 'FontSize', font_size)
+    ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+
+    yticks([0, 1, 10, 100, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+
+    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
 end
+
 
 
 function plotData(xarr, yarr, yciarr)
