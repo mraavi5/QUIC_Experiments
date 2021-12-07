@@ -206,7 +206,10 @@ for inputFileName in csvFiles:
 		col_arr = columnArray.pop(0)
 		if type(columnSums[i]) is str: continue
 
-		columnSums[i] = float(columnSums[i]) / float(rowCounter)
+		if rowCounter != 0:
+			columnSums[i] = float(columnSums[i]) / float(rowCounter)
+		else:
+			columnSums[i] = ''
 		columnCI[i] = mean_confidence_interval(col_arr)
 
 	finalRow = [inputFileName]
