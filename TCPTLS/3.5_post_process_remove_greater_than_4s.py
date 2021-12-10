@@ -138,7 +138,6 @@ csvFiles = listFiles(r'.*\_parsed_handshake.csv', directory)
 for inputFileName in csvFiles:
 	print(f'Processing "{inputFileName}"...')
 	print(f'    Duration cutoff threshold: {duration_cutoff_threshold}ms')
-	readerFile.close()
 
 
 
