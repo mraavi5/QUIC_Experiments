@@ -4,6 +4,7 @@ import pyshark
 import re
 import sys
 import time
+import csv
 
 #quic_fields = ['', 'connection_number', 'packet_length', 'header_form', 'fixed_bit', 'long_packet_type', 'long_reserved', 'packet_number_length', 'version', 'dcil', 'dcid', 'scil', 'scid', 'token_length', 'length', 'packet_number', 'payload', 'frame', 'frame_type', 'crypto_offset', 'crypto_length', 'crypto_crypto_data', 'tls_handshake', 'tls_handshake_type', 'tls_handshake_length', 'tls_handshake_version', 'tls_handshake_random', 'tls_handshake_session_id_length', 'tls_handshake_cipher_suites_length', 'tls_handshake_ciphersuites', 'tls_handshake_ciphersuite', 'tls_handshake_comp_methods_length', 'tls_handshake_comp_methods', 'tls_handshake_comp_method', 'tls_handshake_extensions_length', 'tls_handshake_extension_type', 'tls_handshake_extension_len', 'tls_handshake_extensions_server_name_list_len', 'tls_handshake_extensions_server_name_type', 'tls_handshake_extensions_server_name_len', 'tls_handshake_extensions_server_name', 'tls_handshake_extensions_supported_groups_length', 'tls_handshake_extensions_supported_groups', 'tls_handshake_extensions_supported_group', 'tls_handshake_extensions_alpn_len', 'tls_handshake_extensions_alpn_list', 'tls_handshake_extensions_alpn_str_len', 'tls_handshake_extensions_alpn_str', 'tls_handshake_sig_hash_alg_len', 'tls_handshake_sig_hash_algs', 'tls_handshake_sig_hash_alg', 'tls_handshake_sig_hash_hash', 'tls_handshake_sig_hash_sig', 'tls_handshake_extensions_key_share_client_length', 'tls_handshake_extensions_key_share_group', 'tls_handshake_extensions_key_share_key_exchange_length', 'tls_handshake_extensions_key_share_key_exchange', 'tls_extension_psk_ke_modes_length', 'tls_extension_psk_ke_mode', 'tls_handshake_extensions_supported_versions_len', 'tls_handshake_extensions_supported_version', 'tls_parameter_type', 'tls_parameter_length', 'tls_parameter_value', 'tls_parameter_max_idle_timeout', 'tls_parameter_initial_max_data', 'tls_parameter_initial_max_stream_data_bidi_local', 'tls_parameter_initial_max_stream_data_uni', 'tls_parameter_initial_max_streams_bidi', 'tls_parameter_initial_max_streams_uni', 'tls_parameter_active_connection_id_limit', 'tls_parameter_min_ack_delay', 'tls_parameter_enable_time_stamp_v2', 'tls_parameter_loss_bits', 'tls_parameter_initial_source_connection_id', 'tls_handshake_extensions_padding_data', 'padding_length']
 
@@ -232,6 +233,53 @@ for pcapName in pcapFiles:
 	print(f'Saved to "{fileName}".')
 
 	file.close()
+	outputFile.close()
+
+
+	fixHandshakeDeterminerByReversingThroughAndMakingHandshakeEndLastHandshakePacket = False
+
+
+	if fixHandshakeDeterminerByReversingThroughAndMakingHandshakeEndLastHandshakePacket:
+		#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		print('FIXING IS_HANDSHAKE_DETERMINER...')
+
+		# Fix handshake determination by reverse-iterating through the rows and re-setting the is_handshake_packet so that START to END is correct:
+
+		outputFile = open(fileName, 'r')
+		outputFileReader = csv.reader(outputFile)
+		lines = list(outputFileReader)
+		outputFile.close()
+
+		connectionNumState = -1
+		isHandshakeState = False
+
+		for i in range(len(lines) - 1, 0, -1):
+			connectionNum = lines[i][8]
+			isHandshake = lines[i][7]
+			
+			if isHandshake == 'YES' or isHandshake == 'NO':
+				print('!!! ALREADY BEEN FIXED... BREAKING')
+				break # Already been processed, file is not new
+
+			if connectionNum != connectionNumState:
+				isHandshakeState = False
+				connectionNumState = connectionNum
+
+			if isHandshake == 'True':
+				isHandshakeState = True
+
+			if isHandshakeState:
+				lines[i][7] = 'TRUE'
+			else:
+				lines[i][7] = 'FALSE'
+
+
+		outputFile = open(fileName, 'w', newline='')
+		outputFileWriter = csv.writer(outputFile)
+		outputFileWriter.writerows(lines)
+		outputFile.close()
+
+		#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 print('\n\nPROCESSED FILES:', '\n '.join(pcapFiles))
 print('Goodbye.')
