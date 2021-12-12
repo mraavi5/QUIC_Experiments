@@ -211,7 +211,7 @@ for inputFileName in csvFiles:
 	handshake_short_headers = {}
 	handshake_long_headers_bytes = {}
 	handshake_short_headers_bytes = {}
-	#sample_num = -1
+	#num_successful_co = -1
 
 	# experimental_setup_droprate = []
 	# # Copying the experiment_droprate_client.py experimental setup
@@ -226,8 +226,9 @@ for inputFileName in csvFiles:
 	exp_variables_at_successful_connection = []
 	num_skipped_overlapping_packets = 0
 
+	ccccccccount = 0
 	for packet in reader:
-		if packet[9] == '': continue
+		#if packet[9] == '': continue
 
 		file_algorithm = packet[2]
 		file_numSamples = packet[3]
@@ -235,9 +236,10 @@ for inputFileName in csvFiles:
 		file_experimentVal = packet[5]
 
 		is_handshake_packet = packet[7].strip().upper() == 'TRUE'
-		sample_num = int(packet[8])
 
-		num_successful_connections = int(packet[9])
+		num_successful_connections = int(packet[8]) - 1 # Because it starts at 1
+		if packet[9] != '': num_successful_connections_broken = int(packet[9])
+		else: num_successful_connections_broken = num_successful_connections
 
 		# Keep track of the maximum
 		if num_successful_connections > successful_connection_max_value:
@@ -246,11 +248,11 @@ for inputFileName in csvFiles:
 
 			successful_connection_max_value = num_successful_connections
 
-			# if sample_num >= len(experimental_setup_droprate):
+			# if num_successful_co >= len(experimental_setup_droprate):
 			# 	# If for some reason there are more samples (overfilled), assume it is part of the last accepted sample
 			# 	current_droprate_at_this_time = experimental_setup_droprate[-1]
 			# else:
-			# 	#current_droprate_at_this_time = experimental_setup_droprate[sample_num]
+			# 	#current_droprate_at_this_time = experimental_setup_droprate[num_successful_co]
 			# 	current_droprate_at_this_time = experimental_setup_droprate[num_successful_connections]
 			# # Keep the exp_variables_at_successful_connection array size up to date
 			# while len(exp_variables_at_successful_connection) <= num_successful_connections:
