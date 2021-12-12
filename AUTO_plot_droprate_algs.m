@@ -6,7 +6,7 @@ font_size = 18;
 % columnToPlot = 8 for handshake duration
 % columnToPlot = 18 for number of handshake packets
 % columnToPlot = 22 for number of handshake bytes
-columnToPlot = 8
+columnToPlot = 22
 
 columnToPlotCI = columnToPlot + 1;
 
@@ -25,7 +25,7 @@ columnToPlotCI = columnToPlot + 1;
 % 13 - QUIC 12-06-21 delay 100 samples
 % 14 - TCP 12-06-21 drop 1000 samples
 % 15 - QUIC 12-06-21 drop 1000 samples
-experimentSet = 12
+experimentSet = 15
 
 % 1 - the older 1000 samples
 if experimentSet == 1
@@ -106,31 +106,31 @@ elseif experimentSet == 11
 
 % 12 - TCP 12-06-21 delay 1000 samples
 elseif experimentSet == 12
-    data = readmatrix('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_TCPTLS\COMPUTED_AVERAGES_S_CUTOFF.csv');
-    datastr = readtable('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_TCPTLS\COMPUTED_AVERAGES_S_CUTOFF.csv');
+    data = readmatrix('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_TCPTLS\COMPUTED_AVERAGES.csv');
+    datastr = readtable('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_TCPTLS\COMPUTED_AVERAGES.csv');
     x = [0 100 200 400 50]
     legend_pos = 'SouthEast';
 
 
 % 13 - QUIC 12-06-21 delay 1000 samples
 elseif experimentSet == 13
-    data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_QUIC\COMPUTED_AVERAGES_S_CUTOFF.csv');
-    datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_QUIC\COMPUTED_AVERAGES_S_CUTOFF.csv');
+    data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_QUIC\COMPUTED_AVERAGES.csv');
+    datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_QUIC\COMPUTED_AVERAGES.csv');
     x = [0 100 200 400 50]
     legend_pos = 'SouthEast';
 
 % 14 - TCP 12-06-21 drop 1000 samples
 elseif experimentSet == 14
-    data = readmatrix('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_TCPTLS\COMPUTED_AVERAGES_S_CUTOFF.csv');
-    datastr = readtable('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_TCPTLS\COMPUTED_AVERAGES_S_CUTOFF.csv');
+    data = readmatrix('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_TCPTLS\COMPUTED_AVERAGES.csv');
+    datastr = readtable('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_TCPTLS\COMPUTED_AVERAGES.csv');
     x = [0 10 20 40 5]
     legend_pos = 'SouthEast';
 
 
 % 15 - QUIC 12-06-21 drop 1000 samples
 elseif experimentSet == 15
-    data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES_S_CUTOFF.csv');
-    datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES_S_CUTOFF.csv');
+    data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
+    datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
     x = [0 10 20 40 5]
     legend_pos = 'SouthEast';
 end
