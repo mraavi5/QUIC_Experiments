@@ -1,6 +1,6 @@
 Start timestamp (s),End timestamp (s),Handshake number,Handshake duration (ms),Algorithm,Num Samples,Experiment Type,Type Value,Number of handshake packets,Number of payload packets,Number of handshake bytes,Number of payload bytes,Number of long headers,Number of short headers,Bytes for long headers,Bytes for short headers,
 1637218805.188563,1637218805.194024,0,5.460977554321289,dilithium2,10,corrupt,0%,13,5,11267,1329,17,5,10857,983,
-1637218806.216777,1637218806.226758,1,9.980916976928711,dilithium2,10,corrupt,0%,11,5,11044,1329,15,5,10718,983,
+1637218806.216777,1637218806.226758,1,9.980916976928711,dilithium2,10,corrupt,0%,12,4,11422,951,15,5,10718,983,
 1637218807.243548,1637218807.246579,2,3.031015396118164,dilithium2,10,corrupt,0%,9,6,10858,1404,13,6,10616,1016,
 1637218808.281638,1637218808.286212,3,4.574060440063477,dilithium2,10,corrupt,0%,9,5,10857,1329,13,5,10615,983,
 1637218809.323503,1637218809.330821,4,7.318019866943359,dilithium2,10,corrupt,0%,9,5,10859,1329,13,5,10617,983,
