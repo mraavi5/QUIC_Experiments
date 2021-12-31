@@ -301,7 +301,11 @@ for inputFileName in csvFiles:
 				handshake_short_headers_bytes[num_successful_connections] += int(quic_bytes[i])
 
 	count = 0
-	for i in range(0, successful_connection_max_value):
+	startingPoint = 0
+	if 0 not in time_start:
+		startingPoint = 1
+		
+	for i in range(startingPoint, successful_connection_max_value):
 		handshake_duration = (time_end[i] - time_start[i]) * 1000
 		if handshake_duration == 0: continue
 
