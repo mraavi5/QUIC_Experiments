@@ -6,7 +6,7 @@ font_size = 18;
 % columnToPlot = 8 for handshake duration
 % columnToPlot = 18 for number of handshake packets
 % columnToPlot = 22 for number of handshake bytes
-columnToPlot = 22
+columnToPlot = 8
 
 columnToPlotCI = columnToPlot + 1;
 
@@ -25,7 +25,9 @@ columnToPlotCI = columnToPlot + 1;
 % 13 - QUIC 12-06-21 delay 100 samples
 % 14 - TCP 12-06-21 drop 1000 samples
 % 15 - QUIC 12-06-21 drop 1000 samples
-experimentSet = 15
+% 16 - Winter break delay TCPTLS 1000 samples
+% 17 - Winter break delay QUIC 1000 samples
+experimentSet = 16
 
 % 1 - the older 1000 samples
 if experimentSet == 1
@@ -124,7 +126,7 @@ elseif experimentSet == 14
     data = readmatrix('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_TCPTLS\COMPUTED_AVERAGES.csv');
     datastr = readtable('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_TCPTLS\COMPUTED_AVERAGES.csv');
     x = [0 10 20 40 5]
-    legend_pos = 'SouthEast';
+    legend_pos = 'NorthWest';
 
 
 % 15 - QUIC 12-06-21 drop 1000 samples
@@ -132,7 +134,23 @@ elseif experimentSet == 15
     data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
     datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
     x = [0 10 20 40 5]
-    legend_pos = 'SouthEast';
+    legend_pos = 'NorthWest';
+
+
+% 16 - Winter break delay TCPTLS 1000 samples
+elseif experimentSet == 16
+    data = readmatrix('Winter Break - Delay confirmation\TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES.csv');
+    datastr = readtable('Winter Break - Delay confirmation\TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES.csv');
+    x = [0 100 200 25 50]
+    legend_pos = 'NorthWest';
+
+
+% 17 - Winter break delay QUIC 1000 samples
+elseif experimentSet == 17
+    data = readmatrix('Winter Break - Delay confirmation\QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES.csv');
+    datastr = readtable('Winter Break - Delay confirmation\QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES.csv');
+    x = [0 100 200 25 50]
+    legend_pos = 'NorthWest';
 end
 
 
@@ -397,26 +415,60 @@ elseif experimentSet == 13
 elseif experimentSet == 14
     xlabel('Network Drop Rate (%)', 'FontSize', font_size)
 
-    yticks([0, 1, 10, 100, 1000])
+    yticks([0, 100, 200, 300, 400, 500, 600, 800, 1000])
     set(gca, 'YMinorTick','on', 'YMinorGrid','on')
     set(gca, 'XMinorTick','on', 'XMinorGrid','on')
     set(gca,'FontSize',font_size);
     %set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
     set(gca, 'YGrid', 'on', 'YMinorGrid', 'on');
+    
+    ylim([0, 500])
 
     legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
 
 % 15 - QUIC 12-06-21 drop 1000 samples
 elseif experimentSet == 15
-    xlabel('Network Drop Rate (%)', 'FontSize', font_size)
+    xlabel('Network Delay (ms)', 'FontSize', font_size)
 
-    yticks([0, 1, 10, 100, 1000])
+    yticks([0, 100, 200, 300, 400, 500, 600, 800, 1000])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    %set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+    set(gca, 'YGrid', 'on', 'YMinorGrid', 'on');
+    
+    ylim([0, 500])
+
+    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 16 - Winter break delay TCPTLS 1000 samples
+elseif experimentSet == 16
+    xlabel('Network Delay (ms)', 'FontSize', font_size)
+
+    yticks([0, 200, 400, 600, 800, 1000, 1200])
+    set(gca, 'YMinorTick','on', 'YMinorGrid','on')
+    set(gca, 'XMinorTick','on', 'XMinorGrid','on')
+    set(gca,'FontSize',font_size);
+    %set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
+    set(gca, 'YGrid', 'on', 'YMinorGrid', 'on');
+    
+    ylim([0, 1200])
+
+    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+
+% 17 - Winter break delay QUIC 1000 samples
+elseif experimentSet == 17
+    xlabel('Network Delay (ms)', 'FontSize', font_size)
+
+    yticks([0, 200, 400, 600, 800, 1000, 1200])
     set(gca, 'YMinorTick','on', 'YMinorGrid','on')
     set(gca, 'XMinorTick','on', 'XMinorGrid','on')
     set(gca,'FontSize',font_size);
     %set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
     set(gca, 'YGrid', 'on', 'YMinorGrid', 'on');
 
+    ylim([0, 1200])
+    
     legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
 end
 
