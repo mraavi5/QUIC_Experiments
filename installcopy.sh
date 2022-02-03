@@ -14,7 +14,7 @@ sudo apt install -y astyle git cmake gcc ninja-build libssl-dev python3-pytest p
 
 mkdir oqs
 cd oqs
-git clone https://github.com/prchander/lsquic.git
+git clone https://github.com/mraavi5/lsquic.git
 git clone https://github.com/prchander/boringssl.git
 git clone https://github.com/open-quantum-safe/liboqs.git
 BORINGSSL_DIR=$PWD/boringssl
