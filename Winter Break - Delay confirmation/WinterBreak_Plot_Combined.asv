@@ -10,7 +10,7 @@ barPlot = 1
 % columnToPlot = 8 for handshake duration
 % columnToPlot = 18 for number of handshake packets
 % columnToPlot = 22 for number of handshake bytes
-columnToPlot = 22
+columnToPlot = 8
 
 columnToPlotCI = columnToPlot + 1;
 
@@ -201,19 +201,13 @@ if barPlot == 1
         plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
     end
     
-    
-    set(gcf, 'Position', [100 100 700 600])
-    
     grid on
     axis square
     
     xlabel('Algorithm', 'FontSize', font_size)
     if columnToPlot == 8
-        ylabel('Handshake Duration (ms)', 'FontSize', font_size)
-    elseif columnToPlot == 18
-        ylabel('Handshake Packets', 'FontSize', font_size)
-    elseif columnToPlot == 22
-        ylabel('Handshake Size (B)', 'FontSize', font_size)
+        ylabel('Handshake Time (ms)', 'FontSize', font_size)
+    el
     end
 
     %yticks([0, 200, 400, 600, 800, 1000])

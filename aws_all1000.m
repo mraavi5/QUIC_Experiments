@@ -1,7 +1,10 @@
+fontsize = 20
+
 x = categorical({'California','Mumbai','Paris','Sao Paulo','Seoul','Sydney'});
 x = reordercats(x,{'California','Mumbai','Paris','Sao Paulo','Seoul','Sydney'});
 
-% 1 for aws-tcp/tls 2 for aws-quic 1000samples  
+% 1 for aws-tcp/tls
+% 2 for aws-quic 1000samples  
 selection = 2
 
 if selection == 1
@@ -13,14 +16,14 @@ if selection == 1
 388.1956899	387.1195414	391.9509259	394.1102777	376.3008459	386.7700467
         ];
     bar(x,y)
-    ylabel('TCP/TLS Handshake Time (ms)','FontSize',18)
-    xlabel('AWS Server Location','FontSize',18)
+    ylabel('Handshake Time (ms)','FontSize',fontsize)
+    %xlabel('AWS Server Location','FontSize',fontsize)
     %set(gca, 'YScale', 'log')
-    legend({'RSA3072','Dilithium2','Dilithium3','Dilithium5','Falcon512','Falcon1024'},'FontSize',14)
-    legend('Location','northeast')
+    legend({'RSA3072','Dilithium2','Dilithium3','Dilithium5','Falcon512','Falcon1024'},'FontSize',fontsize)
+    legend('Location','northwest')
     grid on
     grid minor
-    axis square
+    %axis square
 
 elseif selection == 2
     y = [48.8415645	90.71897409	99.4038262	106.8660888	79.52564602	80.65418104
@@ -32,12 +35,17 @@ elseif selection == 2
         ];
     bar(x,y)
     ylim([0 600])
-    ylabel('QUIC Handshake Time (ms)','FontSize',18)
-    xlabel('AWS Server Location','FontSize',18)
+    ylabel('Handshake Time (ms)','FontSize',fontsize)
+    %xlabel('AWS Server Location','FontSize',fontsize)
     %set(gca, 'YScale', 'log')
-    legend({'RSA3072','Dilithium2','Dilithium3','Dilithium5','Falcon512','Falcon1024'},'FontSize',14)
-    legend('Location','northeast')
+    legend({'RSA3072','Dilithium2','Dilithium3','Dilithium5','Falcon512','Falcon1024'},'FontSize',fontsize)
+    legend('Location','northwest')
     grid on
     grid minor
-    axis square
+    %axis square
 end
+
+set(gcf, 'Position', [100 100 1480 450])
+ax = gca
+ax.FontSize = fontsize
+ax.XAxis.FontSize = fontsize
