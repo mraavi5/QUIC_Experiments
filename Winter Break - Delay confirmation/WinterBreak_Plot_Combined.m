@@ -6,19 +6,36 @@ line_width = 2;
 font_size = 18;
 
 barPlot = 1
+cdfPlot = 1
 
 % columnToPlot = 8 for handshake duration
 % columnToPlot = 18 for number of handshake packets
 % columnToPlot = 22 for number of handshake bytes
-columnToPlot = 22
+columnToPlot = 8
+
+includeCIs = 1
+if columnToPlot == 22
+    includeCIs = 0
+end
 
 columnToPlotCI = columnToPlot + 1;
 
-data1 = readmatrix('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP.csv');
-datastr1 = readtable('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP.csv');
+use1rtt = 0
 
-data2 = readmatrix('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
-datastr2 = readtable('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
+if use1rtt ~= 1
+    data1 = readmatrix('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
+    datastr1 = readtable('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
+    
+    data2 = readmatrix('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
+    datastr2 = readtable('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
+else
+    % Since we dont have TCP/TLS yet:
+    data1 = readmatrix('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
+    datastr1 = readtable('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
+    
+    data2 = readmatrix('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_1RTT.csv');
+    datastr2 = readtable('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_1RTT.csv');
+end
 
 x = [0 100 200 25 50]
 legend_pos = 'NorthWest';
@@ -167,11 +184,19 @@ if barPlot == 1
     y = [durationRsa1 durationRsa2; durationDil21 durationDil22; durationDil31 durationDil32; durationDil51 durationDil52; durationFal5121 durationFal5122; durationFal10241 durationFal10242]
     ylinear = [durationRsa1 durationRsa2 durationDil21 durationDil22 durationDil31 durationDil32 durationDil51 durationDil52 durationFal5121 durationFal5122 durationFal10241 durationFal10242]
     yciarr = [ciRsa1 ciRsa2; ciDil21 ciDil22; ciDil31 ciDil32; ciDil51 ciDil52; ciFal5121 ciFal5122; ciFal10241 ciFal10242]
-    bar(y)
+    
+    if columnToPlot == 22
+        y = y / 1000
+    end
+    
+    c = cdfplot(y);
+    %bar(y)
     
     yleft = [durationRsa1 durationDil21 durationDil31 durationDil51 durationFal5121 durationFal10241]
     yright = [durationRsa2 durationDil22 durationDil32 durationDil52 durationFal5122 durationFal10242]
 
+    ycileft = [ciRsa1 ciDil21 ciDil31 ciDil51 ciFal5121 ciFal10241]
+    yciright = [ciRsa2 ciDil22 ciDil32 ciDil52 ciFal5122 ciFal10242]
     
     xticks(x)
     xticklabels({"RSA 3072","Dilithium 2","Dilithium 3","Dilithium 5","Falcon 512","Falcon 1024"})
@@ -181,24 +206,26 @@ if barPlot == 1
     
     %color = get(p, 'Color');
     
-    hold on
-    for i = 1:length(yleft)
-        wid = 0.03
-        px = i - 1.1 / 8
-        py = yleft(i)
-        yci = yciarr(i)
-        plot([px - wid, px + wid], [py - yci, py - yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
-        plot([px - wid, px + wid], [py + yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
-        plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
-    end
-    for i = 1:length(yright)
-        wid = 0.03
-        px = i + 1.1 / 8
-        py = yright(i)
-        yci = yciarr(i)
-        plot([px - wid, px + wid], [py - yci, py - yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
-        plot([px - wid, px + wid], [py + yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
-        plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+    if includeCIs == 1
+        hold on
+        for i = 1:length(yleft)
+            wid = 0.1
+            px = i - 1.1 / 8
+            py = yleft(i)
+            yci = ycileft(i)
+            plot([px - wid, px + wid], [py - yci, py - yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+            plot([px - wid, px + wid], [py + yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+            plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+        end
+        for i = 1:length(yright)
+            wid = 0.1
+            px = i + 1.1 / 8
+            py = yright(i)
+            yci = yciright(i)
+            plot([px - wid, px + wid], [py - yci, py - yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+            plot([px - wid, px + wid], [py + yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+            plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+        end
     end
     
     
@@ -213,7 +240,7 @@ if barPlot == 1
     elseif columnToPlot == 18
         ylabel('Handshake Packets', 'FontSize', font_size)
     elseif columnToPlot == 22
-        ylabel('Handshake Size (B)', 'FontSize', font_size)
+        ylabel('Handshake Size (KB)', 'FontSize', font_size)
     end
 
     %yticks([0, 200, 400, 600, 800, 1000])

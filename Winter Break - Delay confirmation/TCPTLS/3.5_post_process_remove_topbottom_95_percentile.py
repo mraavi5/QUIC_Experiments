@@ -6,6 +6,10 @@ import scipy.stats
 import sys
 import time
 
+
+top_percentile = 95
+bottom_percentile = 5
+
 # Given a regular expression, list the files that match it, and ask for user input
 def selectFile(regex, subdirs = False):
 	files = []
@@ -145,9 +149,10 @@ for inputFileName in csvFiles:
 	for row in reader:
 		handshake_duration = float(row[3])
 		handshake_durations.append(handshake_duration)
-		
-	top_95_quantile = percentile(handshake_durations, 95)
-	print(f'    Top 95% percentile: {top_95_quantile}')
+
+	top_95_quantile = percentile(handshake_durations, top_percentile)
+	bottom_95_quantile = percentile(handshake_durations, bottom_percentile)
+	print(f'    Top/bottom 1% percentile: {top_95_quantile}')
 	readerFile.close()
 
 
@@ -170,6 +175,9 @@ for inputFileName in csvFiles:
 		totalRows += 1
 		handshake_duration = float(row[3])
 		if handshake_duration >= top_95_quantile:
+			removedRows += 1
+			continue
+		if handshake_duration <= bottom_95_quantile:
 			removedRows += 1
 			continue
 
