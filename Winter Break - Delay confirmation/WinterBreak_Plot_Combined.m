@@ -189,8 +189,8 @@ if barPlot == 1
         y = y / 1000
     end
     
-    c = cdfplot(y);
-    %bar(y)
+    %c = cdfplot(y);
+    bar(y)
     
     yleft = [durationRsa1 durationDil21 durationDil31 durationDil51 durationFal5121 durationFal10241]
     yright = [durationRsa2 durationDil22 durationDil32 durationDil52 durationFal5122 durationFal10242]
