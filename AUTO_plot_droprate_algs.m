@@ -27,7 +27,7 @@ columnToPlotCI = columnToPlot + 1;
 % 15 - QUIC 12-06-21 drop 1000 samples
 % 16 - Winter break delay TCPTLS 1000 samples
 % 17 - Winter break delay QUIC 1000 samples
-experimentSet = 16
+experimentSet = 14
 
 % 1 - the older 1000 samples
 if experimentSet == 1
