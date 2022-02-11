@@ -7,8 +7,8 @@ import sys
 import time
 
 
-top_percentile = 95
-bottom_percentile = 5
+top_percentile = 99
+bottom_percentile = 1
 
 # Given a regular expression, list the files that match it, and ask for user input
 def selectFile(regex, subdirs = False):
@@ -152,7 +152,7 @@ for inputFileName in csvFiles:
 
 	top_95_quantile = percentile(handshake_durations, top_percentile)
 	bottom_95_quantile = percentile(handshake_durations, bottom_percentile)
-	print(f'    Top/bottom 1% percentile: {top_95_quantile}')
+	print(f'    Top/bottom 95% percentile: {top_95_quantile}/{bottom_95_quantile}')
 	readerFile.close()
 
 

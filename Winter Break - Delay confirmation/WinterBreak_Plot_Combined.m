@@ -11,7 +11,7 @@ cdfPlot = 1
 % columnToPlot = 8 for handshake duration
 % columnToPlot = 18 for number of handshake packets
 % columnToPlot = 22 for number of handshake bytes
-columnToPlot = 22
+columnToPlot = 8
 
 includeCIs = 1
 if columnToPlot == 22
@@ -30,8 +30,8 @@ if use1rtt ~= 1
     datastr2 = readtable('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
 else
     % Since we dont have TCP/TLS yet:
-    data1 = readmatrix('TCPTLS\fullyAutomatedLogs_1000_samples_1rtt_bssl\COMPUTED_AVERAGES_TCPTLS1rtt_95.csv');
-    datastr1 = readtable('TCPTLS\fullyAutomatedLogs_1000_samples_1rtt_bssl\COMPUTED_AVERAGES_TCPTLS1rtt_95.csv');
+    data1 = readmatrix('TCPTLS\fullyAutomatedLogs_1000_samples_1rtt_bssl\COMPUTED_AVERAGES_TCPTLS1rtt.csv');
+    datastr1 = readtable('TCPTLS\fullyAutomatedLogs_1000_samples_1rtt_bssl\COMPUTED_AVERAGES_TCPTLS1rtt.csv');
     
     data2 = readmatrix('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_1RTT.csv');
     datastr2 = readtable('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_1RTT.csv');
