@@ -152,7 +152,7 @@ for inputFileName in csvFiles:
 
 	top_95_quantile = percentile(handshake_durations, top_percentile)
 	bottom_95_quantile = percentile(handshake_durations, bottom_percentile)
-	print(f'    Top/bottom 1% percentile: {top_95_quantile}')
+	print(f'    Top/bottom 95% percentile: {top_95_quantile}/{bottom_95_quantile}')
 	readerFile.close()
 
 

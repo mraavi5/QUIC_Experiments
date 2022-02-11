@@ -130,7 +130,11 @@ def log(packet, fileName, file, is_handshake_packet):
 		file_algorithm = match.group(1)
 		file_numSamples = match.group(2)
 		file_experimentType = match.group(3)
-		file_experimentVal = match.group(4)
+		# Fix naming scheme for plan_b experiments where there is no Xms or X% give in the file name
+		if re.match(r'^[0-9]+(ms|%)$', match.group(4)) is not None:
+			file_experimentVal = match.group(4)
+		else:
+			file_experimentVal = '0%'
 	else:
 		print(f'File doesn\'t match path: {fileName}')
 

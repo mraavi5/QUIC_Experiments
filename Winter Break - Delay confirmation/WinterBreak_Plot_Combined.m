@@ -11,7 +11,7 @@ cdfPlot = 1
 % columnToPlot = 8 for handshake duration
 % columnToPlot = 18 for number of handshake packets
 % columnToPlot = 22 for number of handshake bytes
-columnToPlot = 8
+columnToPlot = 22
 
 includeCIs = 1
 if columnToPlot == 22
@@ -20,7 +20,7 @@ end
 
 columnToPlotCI = columnToPlot + 1;
 
-use1rtt = 0
+use1rtt = 1
 
 if use1rtt ~= 1
     data1 = readmatrix('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
@@ -30,8 +30,8 @@ if use1rtt ~= 1
     datastr2 = readtable('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
 else
     % Since we dont have TCP/TLS yet:
-    data1 = readmatrix('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
-    datastr1 = readtable('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
+    data1 = readmatrix('TCPTLS\fullyAutomatedLogs_1000_samples_1rtt_bssl\COMPUTED_AVERAGES_TCPTLS1rtt_95.csv');
+    datastr1 = readtable('TCPTLS\fullyAutomatedLogs_1000_samples_1rtt_bssl\COMPUTED_AVERAGES_TCPTLS1rtt_95.csv');
     
     data2 = readmatrix('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_1RTT.csv');
     datastr2 = readtable('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_1RTT.csv');
@@ -72,7 +72,8 @@ ciRsa2 = []
 for i=1:height(datastr1)
     disp(strcat('IT IS ', num2str(i)))
     delaystr = datastr1{i,16}{1}
-    if barPlot == 1 && strcmp(delaystr, "0ms") == 0
+    % Filter out non-zero values, we only want when it's zero
+    if barPlot == 1 && strcmp(delaystr(1), "0") == false
         continue
     end
     algorithm = datastr1{i,10}{1}
@@ -110,7 +111,8 @@ end
 for i=1:height(datastr2)
     disp(strcat('IT IS ', num2str(i)))
     delaystr = datastr2{i,16}{1}
-    if barPlot == 1 && strcmp(delaystr, "0ms") == 0
+    % Filter out non-zero values, we only want when it's zero
+    if barPlot == 1 && strcmp(delaystr(1), "0") == false
         continue
     end
     algorithm = datastr2{i,10}{1}
@@ -178,6 +180,7 @@ if barPlot ~= 1
     ciRsa2 = ciRsa2(sortIdx);
 end
 
+
 hold on;
 if barPlot == 1
     x = [1 2 3 4 5 6]
@@ -186,11 +189,15 @@ if barPlot == 1
     yciarr = [ciRsa1 ciRsa2; ciDil21 ciDil22; ciDil31 ciDil32; ciDil51 ciDil52; ciFal5121 ciFal5122; ciFal10241 ciFal10242]
     
     if columnToPlot == 22
+        % B to KB
         y = y / 1000
     end
     
     %c = cdfplot(y);
-    bar(y)
+    b = bar(y, 'FaceColor','flat')
+
+    b(1).CData = [45/255 106/255 112/255];
+    b(2).CData = [170/255 236/255 243/255];
     
     yleft = [durationRsa1 durationDil21 durationDil31 durationDil51 durationFal5121 durationFal10241]
     yright = [durationRsa2 durationDil22 durationDil32 durationDil52 durationFal5122 durationFal10242]
@@ -201,8 +208,9 @@ if barPlot == 1
     xticks(x)
     xticklabels({"RSA 3072","Dilithium 2","Dilithium 3","Dilithium 5","Falcon 512","Falcon 1024"})
     xtickangle(45)
+    %ylim()
     
-    legend('TCP', 'QUIC', 'Location', legend_pos)
+    legend('TCP/TLS', 'QUIC', 'Location', legend_pos)
     
     %color = get(p, 'Color');
     
@@ -237,10 +245,13 @@ if barPlot == 1
     xlabel('Algorithm', 'FontSize', font_size)
     if columnToPlot == 8
         ylabel('Handshake Duration (ms)', 'FontSize', font_size)
+        ylim([0, 22])
     elseif columnToPlot == 18
         ylabel('Handshake Packets', 'FontSize', font_size)
+        ylim([0, 18])
     elseif columnToPlot == 22
         ylabel('Handshake Size (KB)', 'FontSize', font_size)
+        ylim([0, 18])
     end
 
     %yticks([0, 200, 400, 600, 800, 1000])
