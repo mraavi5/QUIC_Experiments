@@ -147,7 +147,8 @@ for inputFileName in csvFiles:
 	handshake_durations = []
 
 	for row in reader:
-		handshake_duration = float(row[3])
+		#handshake_duration = float(row[3]) # Handshake duration
+		handshake_duration = float(row[10]) # Handshake bytes
 		handshake_durations.append(handshake_duration)
 
 	top_95_quantile = percentile(handshake_durations, top_percentile)
@@ -173,11 +174,12 @@ for inputFileName in csvFiles:
 
 	for row in reader:
 		totalRows += 1
-		handshake_duration = float(row[3])
-		if handshake_duration >= top_95_quantile:
+		#handshake_duration = float(row[3]) # Handshake duration
+		handshake_duration = float(row[10]) # Handshake bytes
+		if handshake_duration > top_95_quantile:
 			removedRows += 1
 			continue
-		if handshake_duration <= bottom_95_quantile:
+		if handshake_duration < bottom_95_quantile:
 			removedRows += 1
 			continue
 
