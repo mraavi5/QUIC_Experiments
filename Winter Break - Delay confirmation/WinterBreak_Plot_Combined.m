@@ -14,27 +14,27 @@ cdfPlot = 1
 columnToPlot = 22
 
 includeCIs = 1
-if columnToPlot == 22
-    includeCIs = 0
-end
+% if columnToPlot == 22
+%     includeCIs = 0
+% end
 
 columnToPlotCI = columnToPlot + 1;
 
-use1rtt = 1
+use1rtt = 0
 
 if use1rtt ~= 1
     data1 = readmatrix('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
     datastr1 = readtable('TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP_95.csv');
     
-    data2 = readmatrix('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
-    datastr2 = readtable('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
+    data2 = readmatrix('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_95.csv');
+    datastr2 = readtable('QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_95.csv');
 else
     % Since we dont have TCP/TLS yet:
     data1 = readmatrix('TCPTLS\fullyAutomatedLogs_1000_samples_1rtt_bssl\COMPUTED_AVERAGES_TCPTLS1rtt_95.csv');
     datastr1 = readtable('TCPTLS\fullyAutomatedLogs_1000_samples_1rtt_bssl\COMPUTED_AVERAGES_TCPTLS1rtt_95.csv');
     
-    data2 = readmatrix('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_1RTT.csv');
-    datastr2 = readtable('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_1RTT.csv');
+    data2 = readmatrix('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_0RTT_95.csv');
+    datastr2 = readtable('QUIC\quicLogs-0rtt-after_winterbreak_2-5-22\COMPUTED_AVERAGES_QUIC_0RTT_95.csv');
 end
 
 x = [0 100 200 25 50]
