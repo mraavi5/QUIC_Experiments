@@ -5,7 +5,7 @@ x = reordercats(x,{'California','Mumbai','Paris','Sao Paulo','Seoul','Sydney'});
 
 % 1 for aws-tcp/tls
 % 2 for aws-quic 1000samples  
-selection = 2
+selection = 1
 
 if selection == 1
     y = [122.379169	135.2158126	144.1270909	131.9799917	117.4066642	120.0519806
@@ -15,6 +15,7 @@ if selection == 1
 386.4140678	395.8113967	402.9860578	396.6267298	383.2759793	383.7672156
 388.1956899	387.1195414	391.9509259	394.1102777	376.3008459	386.7700467
         ];
+    
     bar(x,y)
     ylabel('Handshake Time (ms)','FontSize',fontsize)
     %xlabel('AWS Server Location','FontSize',fontsize)
