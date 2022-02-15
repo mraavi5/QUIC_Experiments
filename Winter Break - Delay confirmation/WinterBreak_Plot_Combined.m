@@ -11,7 +11,7 @@ cdfPlot = 1
 % columnToPlot = 8 for handshake duration
 % columnToPlot = 18 for number of handshake packets
 % columnToPlot = 22 for number of handshake bytes
-columnToPlot = 22
+columnToPlot = 8
 
 includeCIs = 1
 % if columnToPlot == 22
