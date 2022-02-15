@@ -27,7 +27,7 @@ columnToPlotCI = columnToPlot + 1;
 % 15 - QUIC 12-06-21 drop 1000 samples
 % 16 - Winter break delay TCPTLS 1000 samples
 % 17 - Winter break delay QUIC 1000 samples
-experimentSet = 14
+experimentSet = 16
 
 % Our paper uses experimentSet = [14, 15, 16, 17]
 
@@ -455,7 +455,7 @@ elseif experimentSet == 16
     %set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
     set(gca, 'YGrid', 'on', 'YMinorGrid', 'on');
     
-    ylim([0, 1200])
+    ylim([0, 1350])
 
     legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
@@ -470,7 +470,7 @@ elseif experimentSet == 17
     %set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
     set(gca, 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    ylim([0, 1200])
+    ylim([0, 1350])
     
     legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 end
