@@ -3,9 +3,10 @@ fontsize = 20
 x = categorical({'California','Mumbai','Paris','Sao Paulo','Seoul','Sydney'});
 x = reordercats(x,{'California','Mumbai','Paris','Sao Paulo','Seoul','Sydney'});
 
+
 % 1 for aws-tcp/tls
 % 2 for aws-quic 1000samples  
-selection = 2
+selection = 1
 
 if selection == 1
     y = [122.379169	135.2158126	144.1270909	131.9799917	117.4066642	120.0519806
@@ -24,11 +25,11 @@ if selection == 1
 0.680319972	8.655111012	1.335299727	1.100953279	8.755446411	0.835552135
         ];
 
-    bar(x,y)
+    b = bar(x,y, 'FaceColor','flat')
     ylabel('Handshake Time (ms)','FontSize',fontsize)
     %xlabel('AWS Server Location','FontSize',fontsize)
     %set(gca, 'YScale', 'log')
-    legend({'RSA3072','Dilithium2','Dilithium3','Dilithium5','Falcon512','Falcon1024'},'FontSize',fontsize)
+    legend({'RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024'},'FontSize',fontsize)
     legend('Location','northwest')
     grid on
     grid minor
@@ -51,26 +52,7 @@ elseif selection == 2
 0.161982488	1.106466575	0.709511335	0.717731852	0.731866789	0.769623209
         ];
 
-    bar(x,y)
-
-    hold on
-    line_width = 2;
-    for awslocation = 1:length(y)
-        for i = 1:length(y)
-            wid = 0.05
-            index = awslocation + (i - 1) * length(y)
-            px = (i) / length(y) + int(awslocation) %i - (awslocation - length(y) / 2 - 0.5)/(length(y_ci) + 1.5)
-            disp(strcat("INDEX: ", num2str(index)))
-            py = y(index)
-            yci = y_ci(index)
-            plot([px - wid, px + wid], [py - yci, py - yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
-            plot([px - wid, px + wid], [py + yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
-            plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
-        end
-    end
-
-    xlim(["California" "Sydney"])
-    ylim([0 600])
+    b = bar(x,y, 'FaceColor','flat')
     ylabel('Handshake Time (ms)','FontSize',fontsize)
     %xlabel('AWS Server Location','FontSize',fontsize)
     %set(gca, 'YScale', 'log')
@@ -81,7 +63,149 @@ elseif selection == 2
     %axis square
 end
 
+
+b(1).CData = hex2rgb("F28D9F");
+b(2).CData = hex2rgb("A62679");
+b(3).CData = hex2rgb("743B8C");
+b(4).CData = hex2rgb("F2CCB6");
+b(5).CData = hex2rgb("F29472");
+b(6).CData = hex2rgb("747BA8");
+
+hold on
+line_width = 2;
+for awslocation = 1:length(y)
+    for i = 1:length(y)
+        wid = 0.05
+        index = awslocation + (i - 1) * length(y)
+        px = (i + 0.25) / (length(y) + 1.5) + (floor(awslocation)) - 3/length(y) %i - (awslocation - length(y) / 2 - 0.5)/(length(y_ci) + 1.5)
+        disp(strcat("INDEX: ", num2str(index)))
+        py = y(index)
+        yci = y_ci(index)
+        plot([px - wid, px + wid], [py - yci, py - yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+        plot([px - wid, px + wid], [py + yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+        plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+    end
+end
+
+xlim(["California" "Sydney"])
+ylim([0 600])
+
 set(gcf, 'Position', [100 100 1480 450])
 ax = gca
 ax.FontSize = fontsize;
 ax.XAxis.FontSize = fontsize
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function [ rgb ] = hex2rgb(hex,range)
+% hex2rgb converts hex color values to rgb arrays on the range 0 to 1. 
+% 
+% 
+% * * * * * * * * * * * * * * * * * * * * 
+% SYNTAX:
+% rgb = hex2rgb(hex) returns rgb color values in an n x 3 array. Values are
+%                    scaled from 0 to 1 by default. 
+%                    
+% rgb = hex2rgb(hex,256) returns RGB values scaled from 0 to 255. 
+% 
+% 
+% * * * * * * * * * * * * * * * * * * * * 
+% EXAMPLES: 
+% 
+% myrgbvalue = hex2rgb('#334D66')
+%    = 0.2000    0.3020    0.4000
+% 
+% 
+% myrgbvalue = hex2rgb('334D66')  % <-the # sign is optional 
+%    = 0.2000    0.3020    0.4000
+% 
+%
+% myRGBvalue = hex2rgb('#334D66',256)
+%    = 51    77   102
+% 
+% 
+% myhexvalues = ['#334D66';'#8099B3';'#CC9933';'#3333E6'];
+% myrgbvalues = hex2rgb(myhexvalues)
+%    =   0.2000    0.3020    0.4000
+%        0.5020    0.6000    0.7020
+%        0.8000    0.6000    0.2000
+%        0.2000    0.2000    0.9020
+% 
+% 
+% myhexvalues = ['#334D66';'#8099B3';'#CC9933';'#3333E6'];
+% myRGBvalues = hex2rgb(myhexvalues,256)
+%    =   51    77   102
+%       128   153   179
+%       204   153    51
+%        51    51   230
+% 
+% HexValsAsACharacterArray = {'#334D66';'#8099B3';'#CC9933';'#3333E6'}; 
+% rgbvals = hex2rgb(HexValsAsACharacterArray)
+% 
+% * * * * * * * * * * * * * * * * * * * * 
+% Chad A. Greene, April 2014
+%
+% Updated August 2014: Functionality remains exactly the same, but it's a
+% little more efficient and more robust. Thanks to Stephen Cobeldick for
+% the improvement tips. In this update, the documentation now shows that
+% the range may be set to 256. This is more intuitive than the previous
+% style, which scaled values from 0 to 255 with range set to 255.  Now you
+% can enter 256 or 255 for the range, and the answer will be the same--rgb
+% values scaled from 0 to 255. Function now also accepts character arrays
+% as input. 
+% 
+% * * * * * * * * * * * * * * * * * * * * 
+% See also rgb2hex, dec2hex, hex2num, and ColorSpec. 
+% 
+%% Input checks:
+assert(nargin>0&nargin<3,'hex2rgb function must have one or two inputs.') 
+if nargin==2
+    assert(isscalar(range)==1,'Range must be a scalar, either "1" to scale from 0 to 1 or "256" to scale from 0 to 255.')
+end
+%% Tweak inputs if necessary: 
+if iscell(hex)
+    assert(isvector(hex)==1,'Unexpected dimensions of input hex values.')
+    
+    % In case cell array elements are separated by a comma instead of a
+    % semicolon, reshape hex:
+    if isrow(hex)
+        hex = hex'; 
+    end
+    
+    % If input is cell, convert to matrix: 
+    hex = cell2mat(hex);
+end
+if strcmpi(hex(1,1),'#')
+    hex(:,1) = [];
+end
+if nargin == 1
+    range = 1; 
+end
+%% Convert from hex to rgb: 
+switch range
+    case 1
+        rgb = reshape(sscanf(hex.','%2x'),3,[]).'/255;
+    case {255,256}
+        rgb = reshape(sscanf(hex.','%2x'),3,[]).';
+    
+    otherwise
+        error('Range must be either "1" to scale from 0 to 1 or "256" to scale from 0 to 255.')
+end
+end

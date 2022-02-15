@@ -51,7 +51,13 @@ elseif selection == 2
 0.161982488	1.106466575	0.709511335	0.717731852	0.731866789	0.769623209
         ];
 
-    bar(x,y)
+    b = bar(x,y)
+    b(1).CData = [0/255 0/255 0/255];
+    b(2).CData = [170/255 236/255 243/255];
+    b(3).CData = [0/255 0/255 0/255];
+    b(2).CData = [170/255 236/255 243/255];
+    b(1).CData = [0/255 0/255 0/255];
+    b(2).CData = [170/255 236/255 243/255];
 
     hold on
     line_width = 2;
@@ -59,7 +65,7 @@ elseif selection == 2
         for i = 1:length(y)
             wid = 0.05
             index = awslocation + (i - 1) * length(y)
-            px = (i) / length(y) +  %i - (awslocation - length(y) / 2 - 0.5)/(length(y_ci) + 1.5)
+            px = (i + 0.25) / (length(y) + 1.5) + (floor(awslocation)) - 3/length(y) %i - (awslocation - length(y) / 2 - 0.5)/(length(y_ci) + 1.5)
             disp(strcat("INDEX: ", num2str(index)))
             py = y(index)
             yci = y_ci(index)
