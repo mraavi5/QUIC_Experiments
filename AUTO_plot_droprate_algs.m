@@ -1,6 +1,6 @@
 global marker_size line_width font_size legend_pos
 marker_size = 15;
-line_width = 2;
+line_width = 3;
 font_size = 18;
 
 % columnToPlot = 8 for handshake duration
@@ -28,6 +28,8 @@ columnToPlotCI = columnToPlot + 1;
 % 16 - Winter break delay TCPTLS 1000 samples
 % 17 - Winter break delay QUIC 1000 samples
 experimentSet = 14
+
+% Our paper uses experimentSet = [14, 15, 16, 17]
 
 % 1 - the older 1000 samples
 if experimentSet == 1
@@ -139,34 +141,34 @@ elseif experimentSet == 15
 
 % 16 - Winter break delay TCPTLS 1000 samples
 elseif experimentSet == 16
-    data = readmatrix('Winter Break - Delay confirmation\TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES.csv');
-    datastr = readtable('Winter Break - Delay confirmation\TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES.csv');
+    data = readmatrix('Winter Break - Delay confirmation\TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP.csv');
+    datastr = readtable('Winter Break - Delay confirmation\TCPTLS\fullyAutomatedLogs_tcp_delays_12_30_2021\COMPUTED_AVERAGES_TCP.csv');
     x = [0 100 200 25 50]
     legend_pos = 'NorthWest';
 
 
 % 17 - Winter break delay QUIC 1000 samples
 elseif experimentSet == 17
-    data = readmatrix('Winter Break - Delay confirmation\QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES.csv');
-    datastr = readtable('Winter Break - Delay confirmation\QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES.csv');
+    data = readmatrix('Winter Break - Delay confirmation\QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
+    datastr = readtable('Winter Break - Delay confirmation\QUIC\fullyAutomatedLogs_quic_delays_12_28_2021\COMPUTED_AVERAGES_QUIC.csv');
     x = [0 100 200 25 50]
     legend_pos = 'NorthWest';
 end
 
 
+durationRsa = []
 durationDil2 = []
 durationDil3 = []
 durationDil5 = []
 durationFal512 = []
 durationFal1024 = []
-durationRsa = []
 
+ciRsa = []
 ciDil2 = []
 ciDil3 = []
 ciDil5 = []
 ciFal512 = []
 ciFal1024 = []
-ciRsa = []
 
 for i=1:height(datastr)
     disp(strcat('IT IS ', num2str(i)))
@@ -204,28 +206,29 @@ end
 
 % Get the 5% in its correct spot
 [x,sortIdx] = sort(x,'ascend');
+durationRsa = durationRsa(sortIdx);
 durationDil2 = durationDil2(sortIdx);
 durationDil3 = durationDil3(sortIdx);
 durationDil5 = durationDil5(sortIdx);
 durationFal512 = durationFal512(sortIdx);
 durationFal1024 = durationFal1024(sortIdx);
-durationRsa = durationRsa(sortIdx);
 
 
+ciRsa = ciRsa(sortIdx);
 ciDil2 = ciDil2(sortIdx);
 ciDil3 = ciDil3(sortIdx);
 ciDil5 = ciDil5(sortIdx);
 ciFal512 = ciFal512(sortIdx);
 ciFal1024 = ciFal1024(sortIdx);
-ciRsa = ciRsa(sortIdx);
+
 
 hold on;
-plotData(x, durationDil2, ciDil2)
-plotData(x, durationDil3, ciDil3)
-plotData(x, durationDil5, ciDil5)
-plotData(x, durationFal512, ciFal512)
-plotData(x, durationFal1024, ciFal1024)
-plotData(x, durationRsa, ciRsa)
+plotData(x, durationRsa, ciRsa, "#45788C")
+plotData(x, durationDil2, ciDil2, "#DAEAAD")
+plotData(x, durationDil3, ciDil3, "#A7C4AB")
+plotData(x, durationDil5, ciDil5, "#40372F")
+plotData(x, durationFal512, ciFal512, "#F57153")
+plotData(x, durationFal1024, ciFal1024, "#BF5841")
 
 grid on
 axis square
@@ -262,7 +265,7 @@ if experimentSet == 1
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 2 - TCP delay
 elseif experimentSet == 2
@@ -274,7 +277,7 @@ elseif experimentSet == 2
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 3 - QUIC delay
 elseif experimentSet == 3
@@ -286,7 +289,7 @@ elseif experimentSet == 3
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 4 - TCP drop
 elseif experimentSet == 4
@@ -298,7 +301,7 @@ elseif experimentSet == 4
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 5 - QUIC drop
 elseif experimentSet == 5
@@ -310,7 +313,7 @@ elseif experimentSet == 5
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 6 - TCP corrupt
 elseif experimentSet == 6
@@ -322,7 +325,7 @@ elseif experimentSet == 6
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 7 - QUIC corrupt
 elseif experimentSet == 7
@@ -334,7 +337,7 @@ elseif experimentSet == 7
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 8 - TCP duplicate
 elseif experimentSet == 8
@@ -346,7 +349,7 @@ elseif experimentSet == 8
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 9 - QUIC duplicate
 elseif experimentSet == 9
@@ -358,7 +361,7 @@ elseif experimentSet == 9
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 10 - TCP smaller delay steps
 elseif experimentSet == 10
@@ -370,7 +373,7 @@ elseif experimentSet == 10
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 11 - QUIC smaller delay steps
 elseif experimentSet == 11
@@ -382,7 +385,7 @@ elseif experimentSet == 11
     set(gca,'FontSize',font_size);
     set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 
 % 12 - TCP 12-06-21 delay 100 samples
@@ -396,7 +399,7 @@ elseif experimentSet == 12
     %set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
     set(gca, 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 13 - QUIC 12-06-21 delay 100 samples
 elseif experimentSet == 13
@@ -409,7 +412,7 @@ elseif experimentSet == 13
     %set(gca, 'YScale', 'log', 'YGrid', 'on', 'YMinorGrid', 'on');
     set(gca, 'YGrid', 'on', 'YMinorGrid', 'on');
 
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 14 - TCP 12-06-21 drop 1000 samples
 elseif experimentSet == 14
@@ -424,7 +427,7 @@ elseif experimentSet == 14
     
     ylim([0, 500])
 
-    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 15 - QUIC 12-06-21 drop 1000 samples
 elseif experimentSet == 15
@@ -439,7 +442,7 @@ elseif experimentSet == 15
     
     ylim([0, 500])
 
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 16 - Winter break delay TCPTLS 1000 samples
 elseif experimentSet == 16
@@ -454,7 +457,7 @@ elseif experimentSet == 16
     
     ylim([0, 1200])
 
-    legend('TCP/TLS Dilithium 2', 'TCP/TLS Dilithium 3', 'TCP/TLS Dilithium 5', 'TCP/TLS Falcon 512', 'TCP/TLS Falcon 1024', 'TCP/TLS RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
 
 % 17 - Winter break delay QUIC 1000 samples
 elseif experimentSet == 17
@@ -469,7 +472,52 @@ elseif experimentSet == 17
 
     ylim([0, 1200])
     
-    legend('QUIC Dilithium 2', 'QUIC Dilithium 3', 'QUIC Dilithium 5', 'QUIC Falcon 512', 'QUIC Falcon 1024', 'QUIC RSA 3072', 'Location', legend_pos, 'FontSize', font_size - 4)
+    legend('RSA 3072', 'Dilithium 2', 'Dilithium 3', 'Dilithium 5', 'Falcon 512', 'Falcon 1024', 'Location', legend_pos, 'FontSize', font_size - 4)  
+end
+
+
+
+
+
+% DRAW CONFIDENCE INTERVALS
+
+xlimit = xlim()
+wid = (xlimit(2) - xlimit(1)) / 30
+    
+hold on;
+plotDataCI(x, durationRsa, ciRsa, wid, "#45788C")
+plotDataCI(x, durationDil2, ciDil2, wid, "#DAEAAD")
+plotDataCI(x, durationDil3, ciDil3, wid, "#A7C4AB")
+plotDataCI(x, durationDil5, ciDil5, wid, "#40372F")
+plotDataCI(x, durationFal512, ciFal512, wid, "#F57153")
+plotDataCI(x, durationFal1024, ciFal1024, wid, "#BF5841")
+
+
+
+
+
+
+function plotData(xarr, yarr, yciarr, color)
+    global line_width
+    
+    p = plot(xarr, yarr, '-', "Color", color, 'LineWidth', line_width)
+end
+
+function plotDataCI(xarr, yarr, yciarr, wid, color)
+    global line_width
+    ci_line_width = 1
+    
+    %color = get(p, 'Color');
+    hold on
+    for i = 1:length(xarr)
+        x = xarr(i)
+        y = yarr(i)
+        yci = yciarr(i)
+        plot([x - wid, x + wid], [y - yci, y - yci], 'Color', color, 'LineWidth', ci_line_width, 'HandleVisibility','off');
+        plot([x - wid, x + wid], [y + yci, y + yci], 'Color', color, 'LineWidth', ci_line_width, 'HandleVisibility','off');
+        plot([x, x], [y - yci, y + yci], 'Color', color, 'LineWidth', ci_line_width, 'HandleVisibility','off');
+        %plot(x, y, '.', 'Color', color, 'MarkerSize', line_width*10, 'HandleVisibility','off')
+    end
 end
 
 
@@ -477,22 +525,114 @@ end
 
 
 
-function plotData(xarr, yarr, yciarr)
-    global line_width
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function [ rgb ] = hex2rgb(hex,range)
+% hex2rgb converts hex color values to rgb arrays on the range 0 to 1. 
+% 
+% 
+% * * * * * * * * * * * * * * * * * * * * 
+% SYNTAX:
+% rgb = hex2rgb(hex) returns rgb color values in an n x 3 array. Values are
+%                    scaled from 0 to 1 by default. 
+%                    
+% rgb = hex2rgb(hex,256) returns RGB values scaled from 0 to 255. 
+% 
+% 
+% * * * * * * * * * * * * * * * * * * * * 
+% EXAMPLES: 
+% 
+% myrgbvalue = hex2rgb('#334D66')
+%    = 0.2000    0.3020    0.4000
+% 
+% 
+% myrgbvalue = hex2rgb('334D66')  % <-the # sign is optional 
+%    = 0.2000    0.3020    0.4000
+% 
+%
+% myRGBvalue = hex2rgb('#334D66',256)
+%    = 51    77   102
+% 
+% 
+% myhexvalues = ['#334D66';'#8099B3';'#CC9933';'#3333E6'];
+% myrgbvalues = hex2rgb(myhexvalues)
+%    =   0.2000    0.3020    0.4000
+%        0.5020    0.6000    0.7020
+%        0.8000    0.6000    0.2000
+%        0.2000    0.2000    0.9020
+% 
+% 
+% myhexvalues = ['#334D66';'#8099B3';'#CC9933';'#3333E6'];
+% myRGBvalues = hex2rgb(myhexvalues,256)
+%    =   51    77   102
+%       128   153   179
+%       204   153    51
+%        51    51   230
+% 
+% HexValsAsACharacterArray = {'#334D66';'#8099B3';'#CC9933';'#3333E6'}; 
+% rgbvals = hex2rgb(HexValsAsACharacterArray)
+% 
+% * * * * * * * * * * * * * * * * * * * * 
+% Chad A. Greene, April 2014
+%
+% Updated August 2014: Functionality remains exactly the same, but it's a
+% little more efficient and more robust. Thanks to Stephen Cobeldick for
+% the improvement tips. In this update, the documentation now shows that
+% the range may be set to 256. This is more intuitive than the previous
+% style, which scaled values from 0 to 255 with range set to 255.  Now you
+% can enter 256 or 255 for the range, and the answer will be the same--rgb
+% values scaled from 0 to 255. Function now also accepts character arrays
+% as input. 
+% 
+% * * * * * * * * * * * * * * * * * * * * 
+% See also rgb2hex, dec2hex, hex2num, and ColorSpec. 
+% 
+%% Input checks:
+assert(nargin>0&nargin<3,'hex2rgb function must have one or two inputs.') 
+if nargin==2
+    assert(isscalar(range)==1,'Range must be a scalar, either "1" to scale from 0 to 1 or "256" to scale from 0 to 255.')
+end
+%% Tweak inputs if necessary: 
+if iscell(hex)
+    assert(isvector(hex)==1,'Unexpected dimensions of input hex values.')
     
-    p = plot(xarr, yarr, 'o-', 'LineWidth', line_width)
-    return
-    
-    color = get(p, 'Color');
-    hold on
-    for i = 1:length(xarr)
-        wid = 1
-        x = xarr(i)
-        y = yarr(i)
-        yci = yciarr(i)
-        %plot([x - wid, x + wid], [y - yci, y - yci], 'Color', color, 'LineWidth', line_width-1, 'HandleVisibility','off');
-        %plot([x - wid, x + wid], [y + yci, y + yci], 'Color', color, 'LineWidth', line_width-1, 'HandleVisibility','off');
-        %plot([x, x], [y - yci, y + yci], 'Color', color, 'LineWidth', line_width-1, 'HandleVisibility','off');
-        plot(x, y, '.', 'Color', color, 'MarkerSize', line_width*10, 'HandleVisibility','off')
+    % In case cell array elements are separated by a comma instead of a
+    % semicolon, reshape hex:
+    if isrow(hex)
+        hex = hex'; 
     end
+    
+    % If input is cell, convert to matrix: 
+    hex = cell2mat(hex);
+end
+if strcmpi(hex(1,1),'#')
+    hex(:,1) = [];
+end
+if nargin == 1
+    range = 1; 
+end
+%% Convert from hex to rgb: 
+switch range
+    case 1
+        rgb = reshape(sscanf(hex.','%2x'),3,[]).'/255;
+    case {255,256}
+        rgb = reshape(sscanf(hex.','%2x'),3,[]).';
+    
+    otherwise
+        error('Range must be either "1" to scale from 0 to 1 or "256" to scale from 0 to 255.')
+end
 end
