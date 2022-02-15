@@ -58,8 +58,8 @@ elseif selection == 2
     for awslocation = 1:length(y)
         for i = 1:length(y)
             wid = 0.05
-            px = i - (awslocation - length(y) / 2 - 0.5)/(length(y_ci) + 1.5)
             index = awslocation + (i - 1) * length(y)
+            px = (i) / length(y) + int(awslocation) %i - (awslocation - length(y) / 2 - 0.5)/(length(y_ci) + 1.5)
             disp(strcat("INDEX: ", num2str(index)))
             py = y(index)
             yci = y_ci(index)

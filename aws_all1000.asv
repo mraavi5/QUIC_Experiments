@@ -42,21 +42,39 @@ elseif selection == 2
 174.9667	350.0423	350.5012	353.8914	199.0782	200.5917
 176.3685	338.2464	338.5213	357.08	187.5001	203.8781
         ];
-% 
-%     y_ci = [0.115565239	1.072512611	1.196779129	1.117127398	0.100710862	0.244301053
-% XXX	XXX	XXX	XXX	XXX	XXX
-% XXX	XXX	XXX	XXX	XXX	XXX
-% XXX	XXX	XXX	XXX	XXX	XXX
-% XXX	XXX	XXX	XXX	XXX	XXX
-% XXX	XXX	XXX	XXX	XXX	XXX
-%         ];
+
+    y_ci = [0.115565239	1.072512611	1.196779129	1.117127398	0.100710862	0.244301053
+0.089256573	0.795259339	1.258621913	2.376294031	0.886094397	0.809847102
+0.996571398	3.475029183	3.714829281	3.887455357	1.093402732	1.932627831
+0.442286389	1.151665457	0.816129719	1.208656434	0.837844381	0.749003733
+0.120280162	0.523028631	0.450877807	0.547691409	0.417337557	0.662295073
+0.161982488	1.106466575	0.709511335	0.717731852	0.731866789	0.769623209
+        ];
 
     bar(x,y)
+
+    hold on
+    line_width = 2;
+    for awslocation = 1:length(y)
+        for i = 1:length(y)
+            wid = 0.05
+            index = awslocation + (i - 1) * length(y)
+            px = (i) / length(y) +  %i - (awslocation - length(y) / 2 - 0.5)/(length(y_ci) + 1.5)
+            disp(strcat("INDEX: ", num2str(index)))
+            py = y(index)
+            yci = y_ci(index)
+            plot([px - wid, px + wid], [py - yci, py - yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+            plot([px - wid, px + wid], [py + yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+            plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+        end
+    end
+
+    xlim(["California" "Sydney"])
     ylim([0 600])
     ylabel('Handshake Time (ms)','FontSize',fontsize)
     %xlabel('AWS Server Location','FontSize',fontsize)
     %set(gca, 'YScale', 'log')
-    legend({'RSA             3072','Dilithium2','Dilithium3','Dilithium5','Falcon512','Falcon1024'},'FontSize',fontsize)
+    legend({'RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024'},'FontSize',fontsize)
     legend('Location','northwest')
     grid on
     grid minor
