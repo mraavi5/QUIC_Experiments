@@ -52,11 +52,29 @@ elseif selection == 2
         ];
 
     bar(x,y)
+
+    hold on
+    line_width = 2;
+    for awslocation = 1:length(y)
+        for i = 1:length(y)
+            wid = 0.05
+            px = i - (awslocation - length(y) / 2 - 0.5)/(length(y_ci) + 1.5)
+            index = awslocation + (i - 1) * length(y)
+            disp(strcat("INDEX: ", num2str(index)))
+            py = y(index)
+            yci = y_ci(index)
+            plot([px - wid, px + wid], [py - yci, py - yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+            plot([px - wid, px + wid], [py + yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+            plot([px, px], [py - yci, py + yci], 'Color', 'black', 'LineWidth', line_width-1, 'HandleVisibility','off');
+        end
+    end
+
+    xlim(["California" "Sydney"])
     ylim([0 600])
     ylabel('Handshake Time (ms)','FontSize',fontsize)
     %xlabel('AWS Server Location','FontSize',fontsize)
     %set(gca, 'YScale', 'log')
-    legend({'RSA             3072','Dilithium2','Dilithium3','Dilithium5','Falcon512','Falcon1024'},'FontSize',fontsize)
+    legend({'RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024'},'FontSize',fontsize)
     legend('Location','northwest')
     grid on
     grid minor
