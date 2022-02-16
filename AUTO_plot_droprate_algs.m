@@ -27,7 +27,7 @@ columnToPlotCI = columnToPlot + 1;
 % 15 - QUIC 12-06-21 drop 1000 samples
 % 16 - Winter break delay TCPTLS 1000 samples
 % 17 - Winter break delay QUIC 1000 samples
-experimentSet = 16
+experimentSet = 15
 
 % Our paper uses experimentSet = [14, 15, 16, 17]
 
@@ -133,8 +133,10 @@ elseif experimentSet == 14
 
 % 15 - QUIC 12-06-21 drop 1000 samples
 elseif experimentSet == 15
-    data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
-    datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
+    %data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
+    %datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
+    data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES_95.csv');
+    datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES_95.csv');
     x = [0 10 20 40 5]
     legend_pos = 'NorthWest';
 
