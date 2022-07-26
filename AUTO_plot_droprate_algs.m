@@ -1,3 +1,5 @@
+clear all
+
 global marker_size line_width font_size legend_pos
 marker_size = 15;
 line_width = 3;
@@ -27,7 +29,7 @@ columnToPlotCI = columnToPlot + 1;
 % 15 - QUIC 12-06-21 drop 1000 samples
 % 16 - Winter break delay TCPTLS 1000 samples
 % 17 - Winter break delay QUIC 1000 samples
-experimentSet = 15
+experimentSet = 12
 
 % Our paper uses experimentSet = [14, 15, 16, 17]
 
@@ -110,23 +112,23 @@ elseif experimentSet == 11
 
 % 12 - TCP 12-06-21 delay 1000 samples
 elseif experimentSet == 12
-    data = readmatrix('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_TCPTLS\COMPUTED_AVERAGES.csv');
-    datastr = readtable('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_TCPTLS\COMPUTED_AVERAGES.csv');
+    data = readmatrix('COMPUTED_AVERAGES_95(tls_delay).csv');
+    datastr = readtable('COMPUTED_AVERAGES_95(tls_delay).csv');
     x = [0 100 200 400 50]
-    legend_pos = 'SouthEast';
+    legend_pos = 'NorthWest';
 
 
 % 13 - QUIC 12-06-21 delay 1000 samples
 elseif experimentSet == 13
-    data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_QUIC\COMPUTED_AVERAGES.csv');
-    datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_delay_QUIC\COMPUTED_AVERAGES.csv');
+    data = readmatrix('COMPUTED_AVERAGES_95(quic_delay).csv');
+    datastr = readtable('COMPUTED_AVERAGES_95(quic_delay).csv');
     x = [0 100 200 400 50]
-    legend_pos = 'SouthEast';
+    legend_pos = 'NorthWest';
 
 % 14 - TCP 12-06-21 drop 1000 samples
 elseif experimentSet == 14
-    data = readmatrix('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_TCPTLS\COMPUTED_AVERAGES.csv');
-    datastr = readtable('TCPTLS\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_TCPTLS\COMPUTED_AVERAGES.csv');
+    data = readmatrix('COMPUTED_AVERAGES_95(tls_drop).csv');
+    datastr = readtable('COMPUTED_AVERAGES_95(tls_drop).csv');
     x = [0 10 20 40 5]
     legend_pos = 'NorthWest';
 
@@ -135,8 +137,8 @@ elseif experimentSet == 14
 elseif experimentSet == 15
     %data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
     %datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES.csv');
-    data = readmatrix('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES_95.csv');
-    datastr = readtable('QUIC\12-06-21_Droprate_Delay_FullyAutomatedLogs\fullyAutomatedLogs_drop_QUIC\COMPUTED_AVERAGES_95.csv');
+    data = readmatrix('COMPUTED_AVERAGES_95(quic_drop).csv');
+    datastr = readtable('COMPUTED_AVERAGES_95(quic_drop).csv');
     x = [0 10 20 40 5]
     legend_pos = 'NorthWest';
 
@@ -394,7 +396,7 @@ elseif experimentSet == 11
 elseif experimentSet == 12
     xlabel('Network Delay (ms)', 'FontSize', font_size)
 
-    yticks([0, 1, 10, 100, 1000])
+    yticks([0, 200, 400, 600, 800, 1000, 1200])
     set(gca, 'YMinorTick','on', 'YMinorGrid','on')
     set(gca, 'XMinorTick','on', 'XMinorGrid','on')
     set(gca,'FontSize',font_size);
@@ -407,7 +409,7 @@ elseif experimentSet == 12
 elseif experimentSet == 13
     xlabel('Network Delay (ms)', 'FontSize', font_size)
 
-    yticks([0, 1, 10, 100, 1000])
+    yticks([0, 200, 400, 600, 800, 1000, 1200])
     set(gca, 'YMinorTick','on', 'YMinorGrid','on')
     set(gca, 'XMinorTick','on', 'XMinorGrid','on')
     set(gca,'FontSize',font_size);
@@ -433,7 +435,7 @@ elseif experimentSet == 14
 
 % 15 - QUIC 12-06-21 drop 1000 samples
 elseif experimentSet == 15
-    xlabel('Network Delay (ms)', 'FontSize', font_size)
+    xlabel('Network Drop Rate (%)', 'FontSize', font_size)
 
     yticks([0, 100, 200, 300, 400, 500, 600, 800, 1000])
     set(gca, 'YMinorTick','on', 'YMinorGrid','on')
