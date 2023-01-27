@@ -1,4 +1,4 @@
-plotNum = 3
+plotNum = 1
 
 if plotNum == 1
     location = 'California'

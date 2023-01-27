@@ -4,27 +4,27 @@ import os
 import re
 import sys
 
-# # Return the +- value after a set of data
-# def percentile(data, p=95):
-# 	a = 1.0 * np.array(data)
-# 	return np.percentile(a, p)
+# Return the +- value after a set of data
+def percentile(data, p=95):
+	a = 1.0 * np.array(data)
+	return np.percentile(a, p)
 
-# def removePercentile(dataStr, p = 99):
-# 	data = []
-# 	for numStr in dataStr:
-# 		try:
-# 			data.append(float(numStr))
-# 		except:
-# 			pass
-# 	ps = [percentile(data, p), percentile(data, 100 - p)]
-# 	upper = max(ps)
-# 	lower = min(ps)
-# 	print(lower, upper)
-# 	newData = []
-# 	for num in data:
-# 		if num > lower and num < upper:
-# 			newData.append(num)
-# 	return newData
+def removePercentile(dataStr, p = 99):
+	data = []
+	for numStr in dataStr:
+		try:
+			data.append(float(numStr))
+		except:
+			pass
+	ps = [percentile(data, p), percentile(data, 100 - p)]
+	upper = max(ps)
+	lower = min(ps)
+	print(lower, upper)
+	newData = []
+	for num in data:
+		if num > lower and num < upper:
+			newData.append(num)
+	return newData
 
 def listFiles(directory = os.curdir, regex = r'.*'):
 	files = []
@@ -81,7 +81,7 @@ for directory in directories:
 					for row in reader:
 						handshakeDuration = row[3]
 						data[algorithm].append(handshakeDuration)
-					# data[algorithm] = removePercentile(data[algorithm])
+					data[algorithm] = removePercentile(data[algorithm])
 
 			lineNumber = 0
 			EOF = False
