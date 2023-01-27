@@ -1,0 +1,115 @@
+location = 'California'
+% location = 'Mumbai'
+% location = 'Paris'
+% location = 'Sao_Paulo'
+% location = 'Seoul'
+% location = 'Sydney'
+
+data_quic = readmatrix(strcat('Combined_Algorithms_QUIC_', location, '.csv'));
+data_tcp = readmatrix(strcat('Combined_Algorithms_TCPTLS_', location, '.csv'));
+
+colors = ["#45788C", "#DAEAAD", "#A7C4AB", "#40372F", "#F57153", "#BF5841"]
+
+line_width = 2;
+font_size = 18;
+legend_pos = 'SouthEast'
+
+f = figure;
+f.Position = [100 100 1150 400];
+hold on;
+
+% QUIC RSA
+y1 = data_quic(:, 1)
+c1 = cdfplot(y1);
+set(c1,'LineWidth', line_width);
+set(c1, 'LineStyle', '-', 'Color', colors{1});
+
+% QUIC Dilithium 2
+y2 = data_quic(:, 2)
+c2 = cdfplot(y2);
+set(c2,'LineWidth', line_width);
+set(c2, 'LineStyle', '-', 'Color', colors{2});
+
+% QUIC Dilithium 3
+y3 = data_quic(:, 3)
+c3 = cdfplot(y3);
+set(c3,'LineWidth', line_width);
+set(c3, 'LineStyle', '-', 'Color', colors{3});
+
+% QUIC Dilithium 5
+y4 = data_quic(:, 4)
+c4 = cdfplot(y4);
+set(c4,'LineWidth', line_width);
+set(c4, 'LineStyle', '-', 'Color', colors{4});
+
+% QUIC Falcon 512
+y5 = data_quic(:, 5)
+c5 = cdfplot(y5);
+set(c5,'LineWidth', line_width);
+set(c5, 'LineStyle', '-', 'Color', colors{5});
+
+% QUIC Falcon 1024
+y6 = data_quic(:, 6)
+c6 = cdfplot(y6);
+set(c6,'LineWidth', line_width);
+set(c6, 'LineStyle', '-', 'Color', colors{6});
+
+
+
+% TCP/TLS RSA
+y1 = data_tcp(:, 1)
+c1 = cdfplot(y1);
+set(c1,'LineWidth', line_width);
+set(c1, 'LineStyle', '--', 'Color', colors{1});
+
+% TCP/TLS Dilithium 2
+y2 = data_tcp(:, 2)
+c2 = cdfplot(y2);
+set(c2,'LineWidth', line_width);
+set(c2, 'LineStyle', '--', 'Color', colors{2});
+
+% TCP/TLS Dilithium 3
+y3 = data_tcp(:, 3)
+c3 = cdfplot(y3);
+set(c3,'LineWidth', line_width);
+set(c3, 'LineStyle', '--', 'Color', colors{3});
+
+% TCP/TLS Dilithium 5
+y4 = data_tcp(:, 4)
+c4 = cdfplot(y4);
+set(c4,'LineWidth', line_width);
+set(c4, 'LineStyle', '--', 'Color', colors{4});
+
+% TCP/TLS Falcon 512
+y5 = data_tcp(:, 5)
+c5 = cdfplot(y5);
+set(c5,'LineWidth', line_width);
+set(c5, 'LineStyle', '--', 'Color', colors{5});
+
+% TCP/TLS Falcon 1024
+y6 = data_tcp(:, 6)
+c6 = cdfplot(y6);
+set(c6,'LineWidth', line_width);
+set(c6, 'LineStyle', '--', 'Color', colors{6});
+
+
+legend('RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024', 'Location', legend_pos, 'numColumns', 1)
+
+title('');
+
+% Draw the average
+%avg = mean(y, 1, 'omitnan');
+%xline(avg, 'LineWidth', line_width, 'LineStyle', '--', 'Color', 'black', 'HandleVisibility', 'off');
+%text(avg + 1,0.2,'{\it x} = 32', 'FontSize' ,font_size);
+
+% Some additional formatting
+set(gca,'FontSize',font_size);
+grid on;
+box on;
+%axis square;
+xlabel('Handshake Duration (s)');
+ylabel('CDF');
+xlim([40, 200]);
+set(gca, 'XMinorTick','on', 'XMinorGrid','on');
+set(gca, 'YMinorTick','on', 'YMinorGrid','on');
+yticks([0, 0.25, 0.5, 0.75, 1]);
