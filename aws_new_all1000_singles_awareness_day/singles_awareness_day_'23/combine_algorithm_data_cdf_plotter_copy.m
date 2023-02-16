@@ -152,15 +152,11 @@ if drawAverages == 1
 	xline(avg, 'LineWidth', line_width, 'LineStyle', ':', 'Color', colors{6}, 'HandleVisibility', 'off');
 end
 
-
-
-
-
 legend([c1, c2, c3, c4, c5, c6], 'RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024', 'Location', legend_pos, 'numColumns', 1)
 
 title('');
 
-
+legend('QUIC','TCP/TLS');
 
 % Some additional formatting
 set(gca,'FontSize',font_size);
