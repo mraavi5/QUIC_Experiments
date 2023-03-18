@@ -7,7 +7,7 @@ x = reordercats(x,{'California','Mumbai','Paris','Sao Paulo','Seoul','Sydney'});
 
 % 1 for aws-tcp/tls std dev
 % 2 for aws-quic std dev  
-selection = 2
+selection = 1
 
 if selection == 1
     y = [6.141927469	8.543357089	9.684368759	7.703517642	7.691748029	6.975900611
@@ -30,8 +30,7 @@ if selection == 1
     ylabel('Standard Deviation (ms)','FontSize',font_size)
     %xlabel('AWS Server Location','FontSize',fontsize)
     %set(gca, 'YScale', 'log')
-    legend({'RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024'},'FontSize',legend_font_size)
-    legend('Location','northwest')
+    legend({'RSA 3072','Dilithium 2','Dilithium 3','Dilithium 5','Falcon 512','Falcon 1024'},'FontSize',legend_font_size, 'Location','northwest', 'NumColumns', 3, 'Orientation','horizontal')
     grid on
     grid minor
     %axis square
